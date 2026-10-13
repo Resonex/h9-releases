@@ -3,129 +3,378 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b0d11">
-  <meta name="description" content="Download the latest official HACKIN9 (H9) Android release.">
-  <title>HACKIN9 Official Releases</title>
+  <meta name="theme-color" content="#080a0e">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Welcome to the official HACKIN9 website by Resonex. Explore the HACKIN9 Android app, discover its features, read release notes, and download the latest official APK.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta name="author" content="Resonex">
+  <meta name="application-name" content="HACKIN9">
+  <meta name="keywords" content="HACKIN9, HACKIN9 official, HACKIN9 APK, HACKIN9 Android app, HACKIN9 download, Resonex">
+  <link rel="canonical" href="https://hackin9.name.ng/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <title>HACKIN9 Official Website | Android App &amp; APK Download</title>
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="HACKIN9">
+  <meta property="og:url" content="https://hackin9.name.ng/">
+  <meta property="og:title" content="HACKIN9 Official Website | Android App">
+  <meta property="og:description" content="Visit the official HACKIN9 website by Resonex. Explore the Android app, view the latest release and download the official APK.">
+  <meta property="og:image" content="https://hackin9.name.ng/og-image.png">
+  <meta property="og:image:alt" content="HACKIN9 official Android app">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="HACKIN9 Official Website">
+  <meta name="twitter:description" content="Explore HACKIN9 and get the latest official Android release.">
+  <meta name="twitter:image" content="https://hackin9.name.ng/og-image.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "HACKIN9",
+    "alternateName": "HACKIN9 Official",
+    "url": "https://hackin9.name.ng/",
+    "description": "The official HACKIN9 Android app website by Resonex, featuring app information and release downloads.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "HACKIN9",
+      "url": "https://hackin9.name.ng/"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "HACKIN9",
+    "url": "https://hackin9.name.ng/",
+    "description": "The HACKIN9 Android app. Visit the official website for app information, release notes and APK downloads.",
+    "operatingSystem": "Android",
+    "applicationCategory": "UtilitiesApplication",
+    "author": {
+      "@type": "Person",
+      "name": "Resonex"
+    },
+    "downloadUrl": "https://github.com/Resonex/h9-releases/releases"
+  }
+  </script>
+
   <style>
-    :root{color-scheme:dark;--bg:#080a0e;--panel:#10141b;--line:#232a35;--text:#f4f7fb;--muted:#9ba6b5;--blue:#2f8cff;--green:#36d399}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#12305a 0,transparent 48%),var(--bg);color:var(--text);font:16px/1.6 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
-    a{color:inherit}.wrap{width:min(100% - 36px,1000px);margin:auto}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12}.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:800;letter-spacing:.12em}.logo{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(145deg,#398fff,#1555b8);box-shadow:0 8px 28px #2f8cff30;font-weight:900;font-size:20px}.navlink{font-size:14px;color:var(--muted);text-decoration:none}.navlink:hover{color:white}
-    .hero{text-align:center;padding:84px 0 54px}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid #2f8cff55;border-radius:99px;background:#2f8cff12;color:#91c5ff;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}.dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 12px #36d39980}.hero h1{font-size:clamp(42px,8vw,76px);line-height:1.04;letter-spacing:-.055em;margin:24px 0 18px}.hero h1 span{color:var(--blue)}.hero p{max-width:610px;margin:0 auto;color:var(--muted);font-size:18px}.card{max-width:740px;margin:0 auto 28px;padding:28px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,#141a23,#0e1117);box-shadow:0 25px 90px #0006}.cardtop{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.label{color:var(--muted);font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:800}.version{font-size:clamp(28px,5vw,42px);font-weight:850;letter-spacing:-.04em;margin:5px 0}.date{font-size:13px;color:var(--muted)}.badge{white-space:nowrap;padding:6px 10px;border-radius:8px;background:#36d39916;border:1px solid #36d39945;color:#68e6b5;font-size:12px;font-weight:800}.notes{margin:24px 0;padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.notes h3{margin:0 0 10px;font-size:14px}.notes-body{color:#c0c9d5;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:230px;overflow:auto}.actions{display:flex;gap:12px;flex-wrap:wrap}.btn{min-height:50px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 19px;border-radius:12px;text-decoration:none;font-weight:800;font-size:14px;border:1px solid var(--line);transition:transform .15s,background .15s}.btn:hover{transform:translateY(-2px)}.primary{background:var(--blue);color:white;border-color:var(--blue);box-shadow:0 8px 24px #2f8cff25}.secondary{background:#ffffff05;color:#d9e2ef}.btn[aria-disabled="true"]{opacity:.45;pointer-events:none}.fileinfo{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;color:var(--muted);font-size:12px}.status{font-size:14px;color:var(--muted);padding:16px 0}.status.error{color:#ff9a9a}.section{padding:35px 0 60px}.section h2{text-align:center;font-size:25px;letter-spacing:-.03em;margin:0 0 22px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.feature{padding:20px;border:1px solid var(--line);border-radius:16px;background:#ffffff03}.icon{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:#2f8cff17;color:#77b6ff;font-size:18px}.feature h3{font-size:15px;margin:13px 0 5px}.feature p{font-size:13px;color:var(--muted);margin:0}.notice{max-width:740px;margin:0 auto 50px;border:1px solid #f4b74040;background:#f4b7400b;border-radius:13px;padding:14px 16px;color:#c8c3b5;font-size:13px}.notice strong{color:#f4c76b}footer{border-top:1px solid #ffffff12;padding:25px 0 35px;color:var(--muted);font-size:12px}.foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.foot a{color:#9fcaff;text-decoration:none}
-    @media(max-width:650px){.hero{padding:60px 0 38px}.card{padding:21px}.grid{grid-template-columns:1fr}.cardtop{align-items:flex-start}.actions .btn{width:100%}.hero p{font-size:16px}.nav{height:66px}}
+    :root {
+      color-scheme: dark;
+      --bg: #080a0e;
+      --panel: #10141b;
+      --panel-2: #141a23;
+      --line: #232a35;
+      --text: #f4f7fb;
+      --muted: #9ba6b5;
+      --blue: #2f8cff;
+      --blue-light: #91c5ff;
+      --green: #36d399;
+      --radius: 18px;
+      --shadow: 0 25px 90px #0006;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at 50% -20%, #12305a 0, transparent 48%), var(--bg);
+      color: var(--text);
+      font: 16px/1.65 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--blue-light); outline-offset: 3px; }
+    .wrap { width: min(100% - 36px, 1000px); margin-inline: auto; }
+    .nav {
+      min-height: 76px; display: flex; align-items: center; justify-content: space-between;
+      gap: 18px; border-bottom: 1px solid #ffffff12;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 850; letter-spacing: .12em; }
+    .logo {
+      width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px;
+      background: linear-gradient(145deg, #398fff, #1555b8); box-shadow: 0 8px 28px #2f8cff30;
+      font-weight: 950; font-size: 20px; letter-spacing: -.04em;
+    }
+    .navlinks { display: flex; align-items: center; gap: 20px; }
+    .navlink { font-size: 14px; color: var(--muted); text-decoration: none; }
+    .navlink:hover { color: white; }
+    .hero { text-align: center; padding: 76px 0 48px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px;
+      border: 1px solid #2f8cff55; border-radius: 99px; background: #2f8cff12;
+      color: var(--blue-light); font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    }
+    .dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; box-shadow: 0 0 12px #36d39980; }
+    h1 { font-size: clamp(38px, 7.5vw, 72px); line-height: 1.06; letter-spacing: -.055em; margin: 22px 0 18px; }
+    h1 span { display: block; color: var(--blue); }
+    .hero p { max-width: 680px; margin: 0 auto; color: var(--muted); font-size: clamp(16px, 2.2vw, 19px); }
+    .hero-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
+    .btn {
+      min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      padding: 0 18px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 14px;
+      border: 1px solid var(--line); transition: transform .15s, background .15s; cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .primary { background: var(--blue); color: white; border-color: var(--blue); box-shadow: 0 8px 24px #2f8cff25; }
+    .secondary { background: #ffffff05; color: #d9e2ef; }
+    .btn[aria-disabled="true"] { opacity: .45; pointer-events: none; }
+    .card {
+      max-width: 760px; margin: 0 auto 26px; padding: 28px; border: 1px solid var(--line);
+      border-radius: 22px; background: linear-gradient(145deg, var(--panel-2), #0e1117); box-shadow: var(--shadow);
+    }
+    .cardtop { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .label { color: var(--muted); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; font-weight: 800; }
+    .version { font-size: clamp(28px, 5vw, 42px); font-weight: 850; letter-spacing: -.04em; margin: 5px 0; overflow-wrap: anywhere; }
+    .date { font-size: 13px; color: var(--muted); }
+    .badge { white-space: nowrap; padding: 6px 10px; border-radius: 8px; background: #36d39916; border: 1px solid #36d39945; color: #68e6b5; font-size: 12px; font-weight: 800; }
+    .notes { margin: 24px 0; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .notes h2 { margin: 0 0 10px; font-size: 15px; }
+    .notes-body { color: #c0c9d5; font-size: 14px; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 230px; overflow: auto; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .fileinfo { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 16px; color: var(--muted); font-size: 12px; }
+    .status { font-size: 14px; color: var(--muted); padding: 16px 0 0; }
+    .status.error { color: #ff9a9a; }
+    .section { padding: 36px 0 52px; }
+    .section-heading { max-width: 720px; text-align: center; margin: 0 auto 25px; }
+    .section-heading h2 { font-size: clamp(24px, 4vw, 32px); letter-spacing: -.035em; line-height: 1.2; margin: 0 0 10px; }
+    .section-heading p { color: var(--muted); margin: 0; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .feature { padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: #ffffff03; }
+    .icon { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; background: #2f8cff17; color: #77b6ff; font-size: 18px; }
+    .feature h3 { font-size: 15px; margin: 13px 0 5px; }
+    .feature p { font-size: 13px; color: var(--muted); margin: 0; }
+    .about {
+      max-width: 760px; margin: 0 auto; padding: 24px; border: 1px solid var(--line);
+      border-radius: var(--radius); background: #ffffff03;
+    }
+    .about h2 { font-size: 22px; margin: 0 0 10px; }
+    .about p { color: #c0c9d5; margin: 0 0 12px; }
+    .about p:last-child { margin-bottom: 0; }
+    .notice { max-width: 760px; margin: 0 auto 42px; border: 1px solid #f4b74040; background: #f4b7400b; border-radius: 13px; padding: 14px 16px; color: #c8c3b5; font-size: 13px; }
+    .notice strong { color: #f4c76b; }
+    footer { border-top: 1px solid #ffffff12; padding: 25px 0 35px; color: var(--muted); font-size: 12px; }
+    .foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .foot a { color: #9fcaff; text-decoration: none; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    @media (max-width: 700px) {
+      .hero { padding: 58px 0 36px; }
+      .grid { grid-template-columns: 1fr; }
+      .card { padding: 21px; }
+      .nav { min-height: 66px; }
+      .navlinks { gap: 12px; }
+      .navlink { font-size: 12px; }
+    }
+    @media (max-width: 430px) {
+      .wrap { width: min(100% - 28px, 1000px); }
+      .brand { gap: 8px; font-size: 13px; }
+      .logo { width: 36px; height: 36px; }
+      .navlinks .navlink:first-child { display: none; }
+      .cardtop { align-items: flex-start; }
+      .actions .btn, .hero-actions .btn { width: 100%; }
+      .about { padding: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
   </style>
 </head>
 <body>
   <header class="wrap nav">
-    <a class="brand" href="#" aria-label="HACKIN9 home"><span class="logo">H9</span><span>HACKIN9</span></a>
-    <a class="navlink" id="repoLink" href="#" target="_blank" rel="noopener">Source &amp; releases ↗</a>
+    <a class="brand" href="/" aria-label="HACKIN9 official homepage">
+      <span class="logo" aria-hidden="true">H9</span>
+      <span>HACKIN9</span>
+    </a>
+    <nav class="navlinks" aria-label="Main navigation">
+      <a class="navlink" href="#about">About</a>
+      <a class="navlink" href="#latest-release">Latest release</a>
+      <a class="navlink" id="repoLink" href="https://github.com/Resonex/h9-releases" target="_blank" rel="noopener noreferrer">Source &amp; releases ↗</a>
+    </nav>
   </header>
+
   <main>
-    <section class="wrap hero">
-      <div class="eyebrow"><span class="dot"></span> Official Android Releases</div>
-      <h1>Your tools.<br><span>Your edge.</span></h1>
-      <p>Get the latest HACKIN9 app release directly from this page. No need to browse GitHub to find the APK.</p>
+    <section class="wrap hero" aria-labelledby="page-title">
+      <div class="eyebrow"><span class="dot" aria-hidden="true"></span> Official Android App</div>
+      <h1 id="page-title">HACKIN9 <span>Official Website</span></h1>
+      <p>Welcome to the official HACKIN9 website by Resonex. Explore the Android app, check the latest release information, read update notes and download the official APK.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#latest-release">↓ &nbsp; Get the latest APK</a>
+        <a class="btn secondary" href="https://github.com/Resonex/h9-releases" target="_blank" rel="noopener noreferrer">View releases ↗</a>
+      </div>
     </section>
 
-    <section class="wrap" aria-label="Latest release">
+    <section class="wrap" id="latest-release" aria-labelledby="release-heading">
+      <h2 id="release-heading" class="sr-only">Latest HACKIN9 Android APK release</h2>
       <article class="card">
         <div class="cardtop">
-          <div><div class="label">Latest stable release</div><div class="version" id="version">Checking release…</div><div class="date" id="releaseDate">Fetching official release details</div></div>
+          <div>
+            <div class="label">Latest stable release</div>
+            <div class="version" id="version">Checking release…</div>
+            <div class="date" id="releaseDate">Fetching official release details</div>
+          </div>
           <span class="badge" id="releaseBadge">STABLE</span>
         </div>
-        <div class="notes"><h3>What’s new</h3><div class="notes-body" id="notes">Loading release notes…</div></div>
+        <div class="notes">
+          <h2>Release notes</h2>
+          <div class="notes-body" id="notes">Loading official release notes…</div>
+        </div>
         <div class="actions">
           <a class="btn primary" id="downloadBtn" href="#" aria-disabled="true">↓ &nbsp; Download APK</a>
-          <a class="btn secondary" id="allReleasesBtn" href="#" target="_blank" rel="noopener">All releases ↗</a>
+          <a class="btn secondary" id="allReleasesBtn" href="https://github.com/Resonex/h9-releases/releases" target="_blank" rel="noopener noreferrer">All releases ↗</a>
         </div>
-        <div class="fileinfo"><span id="fileName">Package: Android APK</span><span id="fileSize">Size: —</span><span id="downloads">Downloads: —</span></div>
+        <div class="fileinfo">
+          <span id="fileName">Package: Android APK</span>
+          <span id="fileSize">Size: —</span>
+          <span id="downloads">Downloads: —</span>
+        </div>
         <div class="status" id="status" role="status" aria-live="polite">Connecting to the official release feed…</div>
       </article>
-      <div class="notice"><strong>Install note:</strong> Android may ask you to allow installation from your browser or file manager. Only install APKs downloaded from the official HACKIN9 release page.</div>
+      <div class="notice"><strong>Installation note:</strong> Android may ask you to allow installation from your browser or file manager. Only install APK files you trust and verify that they come from the official HACKIN9 release source.</div>
     </section>
 
-    <section class="wrap section">
-      <h2>Built for your workflow</h2>
+    <section class="wrap section" aria-labelledby="features-heading">
+      <div class="section-heading">
+        <h2 id="features-heading">HACKIN9 app releases and updates</h2>
+        <p>Use this page to find the latest published Android package and review the release information before installing.</p>
+      </div>
       <div class="grid">
-        <div class="feature"><div class="icon">↻</div><h3>Always up to date</h3><p>The page checks the official release feed and displays the latest stable version automatically.</p></div>
-        <div class="feature"><div class="icon">↓</div><h3>Direct APK download</h3><p>Choose the APK and download it without opening the GitHub releases interface.</p></div>
-        <div class="feature"><div class="icon">✓</div><h3>Release transparency</h3><p>See the version, release date, file size, download count and changelog before installing.</p></div>
+        <article class="feature">
+          <div class="icon" aria-hidden="true">↻</div>
+          <h3>Latest release information</h3>
+          <p>The page checks the configured GitHub release feed and displays the latest published release details.</p>
+        </article>
+        <article class="feature">
+          <div class="icon" aria-hidden="true">↓</div>
+          <h3>Direct APK download</h3>
+          <p>When a release includes an APK asset, use the download link provided by the official release source.</p>
+        </article>
+        <article class="feature">
+          <div class="icon" aria-hidden="true">✓</div>
+          <h3>Release transparency</h3>
+          <p>Review the published version, release date, package size, download count and release notes.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap section" id="about" aria-labelledby="about-heading">
+      <div class="about">
+        <h2 id="about-heading">About HACKIN9</h2>
+        <p>HACKIN9 is an Android app published under the HACKIN9 name by Resonex. This website is the central place to find its published release information and official APK download links.</p>
+        <p>For the latest available version, check the release details above. The version, release date and notes are loaded from the configured HACKIN9 GitHub releases repository.</p>
       </div>
     </section>
   </main>
-  <footer><div class="wrap foot"><span>© <span id="year"></span> HACKIN9 (H9). All rights reserved.</span><span>Official release information is provided by <a href="https://docs.github.com/en/rest/releases/releases" target="_blank" rel="noopener">GitHub’s Releases API</a>.</span></div></footer>
+
+  <footer>
+    <div class="wrap foot">
+      <span>© <span id="year"></span> HACKIN9 by Resonex. All rights reserved.</span>
+      <span>Release data provided by <a href="https://docs.github.com/en/rest/releases/releases" target="_blank" rel="noopener noreferrer">GitHub's Releases API</a>.</span>
+    </div>
+  </footer>
 
   <script>
-    
+    "use strict";
+
     const GITHUB_OWNER = "Resonex";
     const GITHUB_REPO = "h9-releases";
-
     const $ = id => document.getElementById(id);
     const repoUrl = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}`;
     const releasesUrl = `${repoUrl}/releases`;
+
     $("year").textContent = new Date().getFullYear();
-    $("repoLink").href = releasesUrl;
+    $("repoLink").href = repoUrl;
     $("allReleasesBtn").href = releasesUrl;
 
     function humanSize(bytes) {
       if (!Number.isFinite(bytes) || bytes <= 0) return "Unknown size";
       const units = ["B", "KB", "MB", "GB"];
-      let size = bytes, i = 0;
-      while (size >= 1024 && i < units.length - 1) { size /= 1024; i++; }
+      let size = bytes;
+      let i = 0;
+      while (size >= 1024 && i < units.length - 1) {
+        size /= 1024;
+        i++;
+      }
       return `${size.toFixed(i >= 2 ? 2 : 0)} ${units[i]}`;
     }
+
     function cleanMarkdown(text) {
       if (!text || !text.trim()) return "No release notes were provided for this version.";
-      return text.replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
+      return text
+        .replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
         .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, "$1 — $2")
         .replace(/```[\s\S]*?```/g, block => block.replace(/```[^\n]*\n?/g, "").trim())
         .slice(0, 6000);
     }
+
     function showError(message) {
-      $("version").textContent = "Release unavailable";
-      $("notes").textContent = "We couldn’t load release information right now. Please try again in a moment.";
+      $("version").textContent = "Release temporarily unavailable";
+      $("notes").textContent = "We couldn't load release information right now. Please use the All releases link or try again later.";
       $("status").textContent = message;
       $("status").classList.add("error");
       $("downloadBtn").setAttribute("aria-disabled", "true");
+      $("downloadBtn").removeAttribute("href");
     }
+
     async function loadRelease() {
-      if (GITHUB_OWNER.startsWith("YOUR_") || GITHUB_REPO.startsWith("YOUR_")) {
-        showError("Setup required: edit GITHUB_OWNER and GITHUB_REPO in this file before publishing.");
-        return;
-      }
+      const apiUrl = `https://api.github.com/repos/${encodeURIComponent(GITHUB_OWNER)}/${encodeURIComponent(GITHUB_REPO)}/releases/latest`;
       try {
-        const response = await fetch(`https://api.github.com/repos/${encodeURIComponent(GITHUB_OWNER)}/${encodeURIComponent(GITHUB_REPO)}/releases/latest`, {
+        const response = await fetch(apiUrl, {
           headers: { "Accept": "application/vnd.github+json" }
         });
-        if (!response.ok) throw new Error(response.status === 404 ? "Repository or published stable release not found. Check the repository settings." : `GitHub returned status ${response.status}. Please retry later.`);
+
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error("No published latest release was found. Check the repository and release settings.");
+          }
+          if (response.status === 403 || response.status === 429) {
+            throw new Error("The release service is temporarily rate-limited. Try again later.");
+          }
+          throw new Error(`GitHub returned status ${response.status}. Please try again later.`);
+        }
+
         const release = await response.json();
-        const apk = (release.assets || []).filter(a => /\.apk$/i.test(a.name)).sort((a,b) => {
-          const aUniversal = /universal|release|arm64|all/i.test(a.name) ? 1 : 0;
-          const bUniversal = /universal|release|arm64|all/i.test(b.name) ? 1 : 0;
-          return bUniversal - aUniversal;
-        })[0];
+        const apk = (release.assets || [])
+          .filter(asset => /\.apk$/i.test(asset.name))
+          .sort((a, b) => {
+            const score = name => /universal|release|arm64|all/i.test(name) ? 1 : 0;
+            return score(b.name) - score(a.name);
+          })[0];
+
         $("version").textContent = release.name || release.tag_name || "Latest release";
-        $("releaseDate").textContent = `Released ${release.published_at ? new Date(release.published_at).toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"}) : "date unavailable"}`;
-        $("notes").textContent = cleanMarkdown(release.body);
+        $("releaseDate").textContent = `Released ${release.published_at
+          ? new Date(release.published_at).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })
+          : "date unavailable"}`;
+        $("notes").textContent = cleanMarkdown(release.body || "");
         $("releaseBadge").textContent = release.prerelease ? "PRE-RELEASE" : "STABLE";
         $("allReleasesBtn").href = release.html_url || releasesUrl;
+
         if (!apk) {
           $("fileName").textContent = "APK: not attached to this release";
-          $("status").textContent = "Release found, but no .apk asset was attached. Upload the APK to this GitHub release.";
+          $("fileSize").textContent = "Size: —";
+          $("downloads").textContent = "Downloads: —";
+          $("status").textContent = "Release found, but no APK file is attached. Check the release page for available files.";
           $("status").classList.add("error");
           $("downloadBtn").setAttribute("aria-disabled", "true");
-        } else {
-          $("downloadBtn").href = apk.browser_download_url;
-          $("downloadBtn").removeAttribute("aria-disabled");
-          $("downloadBtn").setAttribute("download", apk.name);
-          $("fileName").textContent = apk.name;
-          $("fileSize").textContent = `Size: ${humanSize(apk.size)}`;
-          $("downloads").textContent = `Downloads: ${(apk.download_count || 0).toLocaleString()}`;
-          $("status").textContent = "Latest release loaded from the official repository.";
+          $("downloadBtn").removeAttribute("href");
+          return;
         }
+
+        $("downloadBtn").href = apk.browser_download_url;
+        $("downloadBtn").removeAttribute("aria-disabled");
+        $("downloadBtn").setAttribute("download", apk.name);
+        $("fileName").textContent = apk.name;
+        $("fileSize").textContent = `Size: ${humanSize(apk.size)}`;
+        $("downloads").textContent = `Downloads: ${(apk.download_count || 0).toLocaleString()}`;
+        $("status").textContent = "Latest release information loaded from the configured GitHub repository.";
+        $("status").classList.remove("error");
       } catch (error) {
-        showError(error.message || "Could not connect to the release feed.");
+        showError(error && error.message ? error.message : "Could not connect to the release feed.");
       }
     }
+
     loadRelease();
   </script>
 </body>
