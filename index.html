@@ -139,16 +139,14 @@
       border: 1px solid rgba(47,140,255,.35);
       box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 8px 24px -8px rgba(47,140,255,.5); }
 
-    /* Glass cards with gradient border and cursor spotlight */
+    /* Glass cards with hairline border and cursor spotlight (no masks, works everywhere) */
     .card { --mx: -600px; --my: -600px; position: relative; border-radius: var(--radius);
-      background:
+      border: 1px solid var(--line-2);
+      background-color: #0d1424;
+      background-image:
         radial-gradient(360px circle at var(--mx) var(--my), rgba(47,140,255,.13), transparent 60%),
         linear-gradient(165deg, rgba(20,29,50,.78), rgba(10,15,27,.88));
-      box-shadow: 0 1px 0 rgba(255,255,255,.04) inset, 0 24px 50px -28px rgba(0,0,0,.8); }
-    .card::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
-      background: linear-gradient(160deg, rgba(147,198,255,.34), rgba(147,198,255,.05) 38%, rgba(47,140,255,.05) 65%, rgba(58,212,255,.22));
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
-      mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 24px 50px -28px rgba(0,0,0,.8); }
 
     /* Header */
     .header { position: sticky; top: 0; z-index: 100; padding-top: 12px; }
@@ -173,11 +171,11 @@
     .btn { position: relative; overflow: hidden; min-height: 50px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 0 22px; border-radius: 14px; font-weight: 700; font-size: 14.5px; text-decoration: none; border: 1px solid var(--line-2); background: rgba(255,255,255,.04); color: var(--text); cursor: pointer; transition: transform .2s var(--ease), background .2s, box-shadow .25s, border-color .2s; }
     .btn:hover { transform: translateY(-2px); background: rgba(255,255,255,.09); border-color: rgba(147,198,255,.45); }
     .btn:active { transform: translateY(0) scale(.98); }
-    .btn-primary { background: linear-gradient(180deg, #4a9dff 0%, var(--blue-2) 100%); border-color: rgba(147,198,255,.6); color: #fff; box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 14px 36px -8px rgba(47,140,255,.65); }
-    .btn-primary:hover { background: linear-gradient(180deg, #62abff 0%, #2279ef 100%); box-shadow: 0 1px 0 rgba(255,255,255,.4) inset, 0 20px 46px -8px rgba(47,140,255,.85); }
+    .btn-primary { background-color: var(--blue-2); background-image: linear-gradient(180deg, #4a9dff 0%, var(--blue-2) 100%); border-color: rgba(147,198,255,.6); color: #fff; box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 14px 36px -8px rgba(47,140,255,.65); }
+    .btn-primary:hover { background-image: linear-gradient(180deg, #62abff 0%, #2279ef 100%); box-shadow: 0 1px 0 rgba(255,255,255,.4) inset, 0 20px 46px -8px rgba(47,140,255,.85); }
     .btn-primary::after { content: ""; position: absolute; top: 0; bottom: 0; left: -80%; width: 50%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent); transform: skewX(-20deg); transition: left .7s var(--ease); pointer-events: none; }
     .btn-primary:hover::after { left: 140%; }
-    .btn[aria-disabled="true"] { opacity: .45; pointer-events: none; }
+    .btn[aria-disabled="true"] { opacity: .6; pointer-events: none; }
     .btn-sm { min-height: 40px; padding: 0 15px; font-size: 13px; border-radius: 11px; }
 
     /* Layout */
@@ -190,9 +188,13 @@
     .eyebrow { display: inline-flex; align-items: center; gap: 9px; padding: 7px 14px; border: 1px solid rgba(47,140,255,.4); border-radius: 99px; background: linear-gradient(90deg, rgba(47,140,255,.14), rgba(58,212,255,.06)); color: var(--blue-light); font-size: 11.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; box-shadow: 0 0 30px -8px rgba(47,140,255,.5); }
     .dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; box-shadow: 0 0 12px rgba(54,211,153,.9); animation: pulse 2s ease-in-out infinite; }
     h1, h2, h3, h4 { line-height: 1.12; margin: 0; font-family: var(--display); }
-    h2.title { font-size: clamp(32px, 5vw, 52px); letter-spacing: -.045em; margin: 20px 0 16px; background: linear-gradient(180deg, #fff 30%, #9fb2d1); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    h2.title { font-size: clamp(32px, 5vw, 52px); letter-spacing: -.045em; margin: 20px 0 16px; color: #e9f0fb; }
     .lead { color: var(--muted); font-size: clamp(16px, 2vw, 18.5px); margin: 0; }
-    .grad { background: linear-gradient(95deg, var(--blue) 10%, var(--cyan) 55%, var(--violet) 100%); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: sheen 6s ease-in-out infinite alternate; }
+    .grad { color: var(--blue-light); }
+    @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+      h2.title { background: linear-gradient(180deg, #fff 30%, #9fb2d1); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .grad { background: linear-gradient(95deg, var(--blue) 10%, var(--cyan) 55%, var(--violet) 100%); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: sheen 6s ease-in-out infinite alternate; }
+    }
 
     /* Hero */
     .hero { padding: 72px 0 96px; }
@@ -236,7 +238,7 @@
     .about-grid p { color: var(--text-2); font-size: 17px; }
     .pillars { display: grid; gap: 16px; }
     .pillar { display: flex; gap: 18px; padding: 22px; align-items: flex-start; transition: transform .25s var(--ease); }
-    .pillar:hover { transform: translateX(6px); }
+    .reveal.in.pillar:hover { transform: translateX(6px); }
     .pillar h3 { font-size: 17px; margin-bottom: 5px; }
     .pillar p { margin: 0; font-size: 14.5px; color: var(--muted); }
 
@@ -246,9 +248,9 @@
     #featureGrid .feature { grid-column: span 2; }
     #featureGrid .feature:nth-child(1), #featureGrid .feature:nth-child(4) { grid-column: span 4; }
     #featureGrid .feature:nth-child(5), #featureGrid .feature:nth-child(6) { grid-column: span 3; }
-    .feature { padding: 30px; overflow: hidden; transition: transform .3s var(--ease), box-shadow .3s; }
+    .feature { padding: 30px; overflow: hidden; transition: opacity .8s var(--ease), transform .3s var(--ease), box-shadow .3s; }
     .feature::after { content: ""; position: absolute; right: -50px; top: -50px; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(47,140,255,.18), transparent 70%); opacity: 0; transition: opacity .35s; pointer-events: none; }
-    .feature:hover { transform: translateY(-5px); box-shadow: 0 30px 60px -24px rgba(47,140,255,.4); }
+    .reveal.in.feature:hover { transform: translateY(-5px); box-shadow: 0 30px 60px -24px rgba(47,140,255,.4); }
     .feature:hover::after { opacity: 1; }
     .feature h3 { font-size: 20px; margin: 22px 0 10px; letter-spacing: -.02em; }
     .feature p { margin: 0; font-size: 15px; color: var(--muted); max-width: 46ch; }
@@ -256,7 +258,7 @@
     #toolChips { display: flex; width: fit-content; max-width: 100%; }
     .chip { padding: 9px 18px; border-radius: 99px; border: 0; background: none; font-size: 13px; font-weight: 700; color: var(--muted); cursor: pointer; transition: all .2s; }
     .chip:hover { color: #fff; }
-    .chip[aria-pressed="true"] { background: linear-gradient(180deg, #3d93ff, var(--blue-2)); color: #fff; box-shadow: 0 6px 20px -6px rgba(47,140,255,.8); }
+    .chip[aria-pressed="true"] { background-color: var(--blue-2); background-image: linear-gradient(180deg, #3d93ff, var(--blue-2)); color: #fff; box-shadow: 0 6px 20px -6px rgba(47,140,255,.8); }
     .tool { padding: 24px; display: flex; flex-direction: column; gap: 12px; transition: transform .3s var(--ease); }
     .tool:hover { transform: translateY(-4px); }
     .tool-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
@@ -268,16 +270,19 @@
     /* Downloads */
     .dl-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: 22px; align-items: start; }
     .release-card { padding: 36px; overflow: hidden;
-      background:
-        linear-gradient(90deg, transparent, var(--blue), var(--cyan), var(--violet), transparent) top / 100% 2px no-repeat,
+      background-color: #0d1424;
+      background-image:
+        linear-gradient(90deg, transparent, var(--blue), var(--cyan), var(--violet), transparent),
         radial-gradient(500px circle at var(--mx) var(--my), rgba(47,140,255,.14), transparent 60%),
         radial-gradient(600px 240px at 100% 0%, rgba(47,140,255,.14), transparent 70%),
         linear-gradient(165deg, rgba(20,29,50,.85), rgba(10,15,27,.92));
+      background-size: 100% 2px, auto, auto, auto;
+      background-position: top left, 0 0, 0 0, 0 0;
+      background-repeat: no-repeat;
       box-shadow: var(--shadow); }
     .cardtop { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
     .label { color: var(--muted); font-size: 12px; letter-spacing: .15em; text-transform: uppercase; font-weight: 800; }
-    .version { font: 700 clamp(34px, 5.5vw, 56px)/1.05 var(--display); letter-spacing: -.05em; margin: 10px 0 8px; overflow-wrap: anywhere; background: linear-gradient(95deg, #fff, var(--blue-light)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .version.skeleton { background: rgba(255,255,255,.06); -webkit-background-clip: border-box; background-clip: border-box; }
+    .version { font: 700 clamp(34px, 5.5vw, 56px)/1.05 var(--display); letter-spacing: -.05em; margin: 10px 0 8px; overflow-wrap: anywhere; color: #e9f2ff; }
     .date { font-size: 13.5px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
     .badge { white-space: nowrap; padding: 6px 12px; border-radius: 99px; background: rgba(54,211,153,.1); border: 1px solid rgba(54,211,153,.4); color: #68e6b5; font-size: 11.5px; font-weight: 800; letter-spacing: .08em; }
     .badge.pre { background: rgba(244,199,107,.1); border-color: rgba(244,199,107,.4); color: var(--amber); }
@@ -334,7 +339,7 @@
     .toggle input:checked::after { transform: translateX(18px); background: #fff; }
     .timeline { max-width: 880px; margin: 0 auto; position: relative; display: grid; gap: 16px; padding-left: 36px; }
     .timeline::before { content: ""; position: absolute; left: 8px; top: 10px; bottom: 10px; width: 2px; background: linear-gradient(var(--blue), var(--cyan) 50%, transparent); opacity: .5; border-radius: 2px; }
-    .vrow::after { content: ""; position: absolute; left: -35px; top: 24px; width: 14px; height: 14px; border-radius: 50%; background: var(--bg); border: 2px solid var(--blue); box-shadow: 0 0 0 5px rgba(47,140,255,.14); }
+    .vrow::after { content: ""; position: absolute; left: -36px; top: 24px; width: 14px; height: 14px; border-radius: 50%; background: var(--bg); border: 2px solid var(--blue); box-shadow: 0 0 0 5px rgba(47,140,255,.14); }
     .vrow.is-latest::after { background: var(--green); border-color: var(--green); box-shadow: 0 0 0 5px rgba(54,211,153,.18), 0 0 18px rgba(54,211,153,.6); }
     .vhead { width: 100%; display: flex; align-items: center; gap: 14px; padding: 18px 20px; background: none; border: 0; text-align: left; cursor: pointer; border-radius: var(--radius); }
     .vhead:hover { background: rgba(255,255,255,.025); }
@@ -451,6 +456,8 @@
     }
     @media (max-width: 960px) {
       :root { --header-h: 76px; }
+      /* backdrop-filter would trap the fixed mobile menu inside the header, so it is off here */
+      .nav { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(8,11,20,.92); border-color: var(--line-2); }
       .menu-btn { display: inline-grid; }
       .navlinks { position: fixed; inset: var(--header-h) 0 0 0; flex-direction: column; align-items: stretch; gap: 6px; padding: 20px; background: rgba(5,7,13,.98); transform: translateX(100%); visibility: hidden; transition: transform .3s var(--ease), visibility .3s; overflow: auto; }
       .navlinks.open { transform: none; visibility: visible; }
@@ -665,7 +672,7 @@
               <div><small><svg class="i" aria-hidden="true"><use href="#i-download"/></svg> Downloads</small><b id="downloads">--</b></div>
             </div>
             <div class="actions">
-              <a class="btn btn-primary" id="downloadBtn" href="#downloads" aria-disabled="true"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg> Download APK</a>
+              <a class="btn btn-primary" id="downloadBtn" href="https://github.com/Resonex/h9-releases/releases" target="_blank" rel="noopener noreferrer"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg> <span id="downloadLabel">Download APK</span></a>
               <a class="btn" id="notesBtn" href="#changelog"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg> Release notes</a>
               <a class="btn" id="allReleasesBtn" href="https://github.com/Resonex/h9-releases/releases" target="_blank" rel="noopener noreferrer"><svg class="i" aria-hidden="true"><use href="#i-external"/></svg> All releases</a>
             </div>
@@ -966,6 +973,7 @@
     $("year").textContent = new Date().getFullYear();
     $("repoLink").href = repoUrl; $("footRepo").href = repoUrl;
     $("allReleasesBtn").href = releasesUrl; $("notesLink").href = releasesUrl;
+    $("downloadBtn").href = releasesUrl;
     $("issuesLink").href = `${repoUrl}/issues`;
     $("mailLink").href = `mailto:${CONTACT_EMAIL}`; $("mailLink").textContent = CONTACT_EMAIL;
 
@@ -1072,8 +1080,14 @@
     consoleLines([{ k: "connect", v: "api.github.com" }, { k: "fetch", v: "latest release..." }]);
 
     function unskeleton(...ids) { ids.forEach(i => $(i).classList.remove("skeleton")); }
-    function setDownloadDisabled(msg, isErr) {
-      $("downloadBtn").setAttribute("aria-disabled", "true"); $("downloadBtn").removeAttribute("href"); $("downloadBtn").removeAttribute("download");
+
+    /* The download button is never hidden or dead: it either downloads the APK or opens the releases page */
+    function setDownloadFallback(msg, isErr, url, label) {
+      const b = $("downloadBtn");
+      b.href = url || releasesUrl;
+      b.target = "_blank"; b.rel = "noopener noreferrer";
+      b.removeAttribute("download"); b.removeAttribute("aria-disabled");
+      $("downloadLabel").textContent = label || "Open releases page";
       $("status").textContent = msg; $("status").classList.toggle("error", !!isErr);
     }
 
@@ -1094,11 +1108,15 @@
       const lines = [{ k: "release", v: rel.tag_name || releaseName(rel) }, { k: "published", v: fmtDate(rel.published_at) }];
       if (!apk) {
         $("fileName").textContent = "Not attached"; $("fileSize").textContent = "--"; $("downloads").textContent = "--"; $("heroSize").textContent = "--";
-        setDownloadDisabled("Release found, but no APK file is attached. Check the release page for available files.", true);
+        setDownloadFallback("Release found, but no APK file is attached. Open the release page for available files.", true, rel.html_url, "Open release page");
         lines.push({ k: "asset", v: "no APK attached", cls: "k" });
         consoleLines(lines); return;
       }
-      $("downloadBtn").href = apk.browser_download_url; $("downloadBtn").removeAttribute("aria-disabled"); $("downloadBtn").setAttribute("download", apk.name);
+      const b = $("downloadBtn");
+      b.href = apk.browser_download_url;
+      b.removeAttribute("aria-disabled"); b.removeAttribute("target"); b.removeAttribute("rel");
+      b.setAttribute("download", apk.name);
+      $("downloadLabel").textContent = "Download APK";
       $("fileName").textContent = apk.name; $("fileSize").textContent = humanSize(apk.size); $("downloads").textContent = fmtNum(apk.download_count);
       $("heroSize").textContent = humanSize(apk.size);
       $("status").classList.remove("error");
@@ -1114,10 +1132,10 @@
       unskeleton("version", "heroVersion", "heroSize", "heroDownloads");
       $("version").textContent = "Release unavailable";
       $("heroVersion").textContent = "--"; $("heroSize").textContent = "--"; $("heroDownloads").textContent = "--";
-      $("releaseDate").textContent = "Please use the All releases link";
+      $("releaseDate").textContent = "Please use the button below";
       $("notes").textContent = "We could not load release information right now. Use the All releases link or try again later.";
       $("timeline").innerHTML = `<div class="empty">Version history is unavailable right now. <a href="${releasesUrl}" target="_blank" rel="noopener noreferrer">View releases on GitHub</a>.</div>`;
-      setDownloadDisabled(msg, true);
+      setDownloadFallback(msg + " You can still get the APK from the GitHub releases page.", true, releasesUrl, "Open releases page");
       consoleLines([{ k: "error", v: msg, cls: "k" }]);
     }
 
