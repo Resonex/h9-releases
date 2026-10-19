@@ -63,6 +63,12 @@
   }
   </script>
 
+  <!-- Failsafe: only hide scroll-reveal sections if JS runs, and always show them after 3 seconds -->
+  <script>
+    document.documentElement.className += " js";
+    setTimeout(function () { document.documentElement.className += " reveal-all"; }, 3000);
+  </script>
+
   <style>
     :root {
       color-scheme: dark;
@@ -111,23 +117,23 @@
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: #1b2640; border-radius: 99px; border: 2px solid var(--bg); }
     ::-webkit-scrollbar-thumb:hover { background: #2a3a5e; }
-    .wrap { width: min(100% - 40px, 1200px); margin-inline: auto; }
+    .wrap { width: calc(100% - 40px); max-width: 1200px; margin-left: auto; margin-right: auto; }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
     .skip { position: fixed; left: 16px; top: -60px; z-index: 300; background: var(--blue); color: #fff; padding: 10px 16px; border-radius: 10px; font-weight: 700; text-decoration: none; transition: top .2s; }
     .skip:focus { top: 16px; }
 
     /* Atmosphere */
-    .aurora { position: fixed; inset: 0; z-index: -3; pointer-events: none; overflow: hidden; background: var(--bg); }
+    .aurora { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: -3; pointer-events: none; overflow: hidden; background: var(--bg); }
     .aurora i { position: absolute; border-radius: 50%; will-change: transform; }
     .aurora i:nth-child(1) { width: 900px; height: 900px; left: 50%; top: -420px; margin-left: -450px; background: radial-gradient(circle, rgba(47,140,255,.3), transparent 62%); animation: drift1 22s ease-in-out infinite alternate; }
     .aurora i:nth-child(2) { width: 700px; height: 700px; right: -260px; top: 18%; background: radial-gradient(circle, rgba(123,109,255,.2), transparent 62%); animation: drift2 28s ease-in-out infinite alternate; }
     .aurora i:nth-child(3) { width: 800px; height: 800px; left: -300px; top: 55%; background: radial-gradient(circle, rgba(58,212,255,.13), transparent 62%); animation: drift1 32s ease-in-out infinite alternate-reverse; }
-    .grid-bg { position: fixed; inset: 0; z-index: -2; pointer-events: none; opacity: .55;
+    .grid-bg { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: -2; pointer-events: none; opacity: .55;
       background-image: linear-gradient(rgba(143,195,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(143,195,255,.05) 1px, transparent 1px);
       background-size: 60px 60px;
       -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 10%, #000 10%, transparent 75%);
       mask-image: radial-gradient(ellipse 80% 70% at 50% 10%, #000 10%, transparent 75%); }
-    .noise { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .05; mix-blend-mode: overlay;
+    .noise { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: -1; pointer-events: none; opacity: .05; mix-blend-mode: overlay;
       background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
     .progress { position: fixed; left: 0; top: 0; height: 3px; width: 100%; z-index: 400; transform: scaleX(0); transform-origin: 0 50%; background: linear-gradient(90deg, var(--blue), var(--cyan), var(--violet)); box-shadow: 0 0 14px rgba(58,212,255,.7); }
 
@@ -139,7 +145,7 @@
       border: 1px solid rgba(47,140,255,.35);
       box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 8px 24px -8px rgba(47,140,255,.5); }
 
-    /* Glass cards with hairline border and cursor spotlight (no masks, works everywhere) */
+    /* Glass cards with hairline border and cursor spotlight */
     .card { --mx: -600px; --my: -600px; position: relative; border-radius: var(--radius);
       border: 1px solid var(--line-2);
       background-color: #0d1424;
@@ -150,42 +156,46 @@
 
     /* Header */
     .header { position: sticky; top: 0; z-index: 100; padding-top: 12px; }
-    .nav { height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 0 10px 0 14px; border-radius: 20px; border: 1px solid transparent;
+    .nav { height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px 0 14px; border-radius: 20px; border: 1px solid transparent;
       background: rgba(8,11,20,.35); backdrop-filter: blur(14px) saturate(150%); -webkit-backdrop-filter: blur(14px) saturate(150%); transition: background .3s, border-color .3s, box-shadow .3s; }
     .header.scrolled .nav { background: rgba(8,11,20,.82); border-color: var(--line-2); box-shadow: 0 20px 50px -20px rgba(0,0,0,.8); }
-    .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font: 700 15px var(--display); letter-spacing: .2em; }
-    .brand img { width: 36px; height: 36px; border-radius: 11px; object-fit: cover; background: var(--panel); box-shadow: 0 0 0 1px var(--line-2), 0 8px 24px rgba(47,140,255,.35); }
-    .navlinks { display: flex; align-items: center; gap: 2px; list-style: none; margin: 0; padding: 0; }
+    .brand { display: inline-flex; align-items: center; text-decoration: none; font: 700 15px var(--display); letter-spacing: .2em; }
+    .brand img { width: 36px; height: 36px; margin-right: 12px; border-radius: 11px; object-fit: cover; background: var(--panel); box-shadow: 0 0 0 1px var(--line-2), 0 8px 24px rgba(47,140,255,.35); }
+    .navlinks { display: flex; align-items: center; list-style: none; margin: 0; padding: 0; }
+    .navlinks li { margin: 0 1px; }
     .navlinks a { position: relative; display: block; padding: 8px 11px; border-radius: 10px; font-size: 13.5px; font-weight: 600; color: var(--muted); text-decoration: none; transition: color .15s, background .15s; }
     .navlinks a:hover { color: #fff; background: rgba(255,255,255,.05); }
     .navlinks a[aria-current="true"] { color: #fff; background: rgba(47,140,255,.16); box-shadow: inset 0 0 0 1px rgba(47,140,255,.35); }
-    .nav-actions { display: flex; align-items: center; gap: 8px; }
+    .nav-actions { display: flex; align-items: center; }
+    .nav-actions > * + * { margin-left: 8px; }
     .icon-btn { width: 42px; height: 42px; display: inline-grid; place-items: center; border-radius: 12px; border: 1px solid var(--line-2); background: rgba(255,255,255,.03); cursor: pointer; transition: background .15s, border-color .15s, transform .15s; }
     .icon-btn:hover { background: rgba(255,255,255,.08); border-color: rgba(147,198,255,.4); transform: translateY(-1px); }
-    .search-btn { display: inline-flex; align-items: center; gap: 10px; height: 42px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--line-2); background: rgba(255,255,255,.03); color: var(--muted); cursor: pointer; font-size: 13px; transition: border-color .15s, color .15s; }
+    .search-btn { display: inline-flex; align-items: center; height: 42px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--line-2); background: rgba(255,255,255,.03); color: var(--muted); cursor: pointer; font-size: 13px; transition: border-color .15s, color .15s; }
+    .search-btn > * + * { margin-left: 10px; }
     .search-btn:hover { border-color: rgba(147,198,255,.4); color: #fff; }
     kbd { font: 600 11px var(--mono); padding: 2px 6px; border: 1px solid var(--line-2); border-bottom-width: 2px; border-radius: 6px; color: var(--muted); background: rgba(255,255,255,.03); }
     .menu-btn { display: none; }
 
     /* Buttons */
-    .btn { position: relative; overflow: hidden; min-height: 50px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 0 22px; border-radius: 14px; font-weight: 700; font-size: 14.5px; text-decoration: none; border: 1px solid var(--line-2); background: rgba(255,255,255,.04); color: var(--text); cursor: pointer; transition: transform .2s var(--ease), background .2s, box-shadow .25s, border-color .2s; }
+    .btn { position: relative; overflow: hidden; min-height: 50px; display: inline-flex; align-items: center; justify-content: center; padding: 0 22px; border-radius: 14px; font-weight: 700; font-size: 14.5px; text-decoration: none; border: 1px solid var(--line-2); background: rgba(255,255,255,.04); color: var(--text); cursor: pointer; transition: transform .2s var(--ease), background .2s, box-shadow .25s, border-color .2s; }
+    .btn > .i { margin-right: 10px; }
     .btn:hover { transform: translateY(-2px); background: rgba(255,255,255,.09); border-color: rgba(147,198,255,.45); }
     .btn:active { transform: translateY(0) scale(.98); }
     .btn-primary { background-color: var(--blue-2); background-image: linear-gradient(180deg, #4a9dff 0%, var(--blue-2) 100%); border-color: rgba(147,198,255,.6); color: #fff; box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 14px 36px -8px rgba(47,140,255,.65); }
     .btn-primary:hover { background-image: linear-gradient(180deg, #62abff 0%, #2279ef 100%); box-shadow: 0 1px 0 rgba(255,255,255,.4) inset, 0 20px 46px -8px rgba(47,140,255,.85); }
     .btn-primary::after { content: ""; position: absolute; top: 0; bottom: 0; left: -80%; width: 50%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent); transform: skewX(-20deg); transition: left .7s var(--ease); pointer-events: none; }
     .btn-primary:hover::after { left: 140%; }
-    .btn[aria-disabled="true"] { opacity: .6; pointer-events: none; }
     .btn-sm { min-height: 40px; padding: 0 15px; font-size: 13px; border-radius: 11px; }
+    .btn-sm > .i { margin-right: 8px; }
 
     /* Layout */
     section { position: relative; }
     .section { padding: 112px 0; }
-    .section::before { content: ""; position: absolute; top: 0; left: 50%; width: min(80%, 760px); height: 1px; transform: translateX(-50%); background: linear-gradient(90deg, transparent, var(--line-2), transparent); }
+    .section::before { content: ""; position: absolute; top: 0; left: 50%; width: 70%; max-width: 760px; height: 1px; transform: translateX(-50%); background: linear-gradient(90deg, transparent, var(--line-2), transparent); }
     #home::before { display: none; }
     .section-head { max-width: 740px; margin: 0 auto 56px; text-align: center; }
-    .section-head.left { margin-left: 0; text-align: left; }
-    .eyebrow { display: inline-flex; align-items: center; gap: 9px; padding: 7px 14px; border: 1px solid rgba(47,140,255,.4); border-radius: 99px; background: linear-gradient(90deg, rgba(47,140,255,.14), rgba(58,212,255,.06)); color: var(--blue-light); font-size: 11.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; box-shadow: 0 0 30px -8px rgba(47,140,255,.5); }
+    .eyebrow { display: inline-flex; align-items: center; padding: 7px 14px; border: 1px solid rgba(47,140,255,.4); border-radius: 99px; background: linear-gradient(90deg, rgba(47,140,255,.14), rgba(58,212,255,.06)); color: var(--blue-light); font-size: 11.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; box-shadow: 0 0 30px -8px rgba(47,140,255,.5); }
+    .eyebrow > .i, .eyebrow > .dot { margin-right: 9px; }
     .dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; box-shadow: 0 0 12px rgba(54,211,153,.9); animation: pulse 2s ease-in-out infinite; }
     h1, h2, h3, h4 { line-height: 1.12; margin: 0; font-family: var(--display); }
     h2.title { font-size: clamp(32px, 5vw, 52px); letter-spacing: -.045em; margin: 20px 0 16px; color: #e9f0fb; }
@@ -198,77 +208,82 @@
 
     /* Hero */
     .hero { padding: 72px 0 96px; }
-    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 64px; align-items: center; }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; grid-column-gap: 64px; grid-row-gap: 48px; align-items: center; }
     .hero h1 { font-size: clamp(42px, 7vw, 82px); letter-spacing: -.06em; margin: 26px 0 22px; line-height: 1.02; }
     .hero h1 small { display: block; margin-top: 14px; font: 600 clamp(20px, 3vw, 30px)/1.25 var(--display); letter-spacing: -.03em; color: var(--text-2); }
     .hero .lead { max-width: 560px; }
-    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+    .hero-actions { display: flex; flex-wrap: wrap; margin-top: 34px; margin-right: -12px; }
+    .hero-actions > * { margin: 0 12px 12px 0; }
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 44px; border: 1px solid var(--line-2); border-radius: 20px; background: linear-gradient(160deg, rgba(20,29,50,.6), rgba(10,15,27,.7)); overflow: hidden; max-width: 560px; }
     .stat { padding: 18px 20px; position: relative; }
     .stat + .stat { border-left: 1px solid var(--line); }
-    .stat b { display: block; font: 700 24px var(--display); letter-spacing: -.03em; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .stat b { display: block; min-height: 30px; font: 700 24px var(--display); letter-spacing: -.03em; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
     .stat span { font-size: 11px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; font-weight: 700; }
 
     .hero-visual { position: relative; padding: 36px 0; }
-    .hero-visual::before { content: ""; position: absolute; left: 50%; top: 50%; width: 130%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; border: 1px dashed rgba(147,198,255,.14); animation: spin 60s linear infinite; pointer-events: none; }
-    .hero-visual::after { content: ""; position: absolute; left: 50%; top: 50%; width: 100%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; border: 1px solid rgba(47,140,255,.1); pointer-events: none; }
+    .hero-visual::before { content: ""; position: absolute; left: 50%; top: 50%; width: 130%; padding-bottom: 130%; height: 0; transform: translate(-50%, -50%); border-radius: 50%; border: 1px dashed rgba(147,198,255,.14); animation: spin 60s linear infinite; pointer-events: none; }
+    .hero-visual::after { content: ""; position: absolute; left: 50%; top: 50%; width: 100%; padding-bottom: 100%; height: 0; transform: translate(-50%, -50%); border-radius: 50%; border: 1px solid rgba(47,140,255,.1); pointer-events: none; }
     .console { position: relative; z-index: 2; border: 1px solid var(--line-2); border-radius: var(--radius-lg); background: linear-gradient(170deg, rgba(16,24,42,.95), rgba(8,12,22,.97)); box-shadow: var(--shadow), var(--glow); overflow: hidden; }
     .console::after { content: ""; position: absolute; left: 0; right: 0; height: 90px; top: -90px; background: linear-gradient(180deg, transparent, rgba(47,140,255,.12), transparent); animation: scan 6s linear infinite; pointer-events: none; }
-    .console-bar { display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.02); }
-    .console-bar i { width: 11px; height: 11px; border-radius: 50%; display: block; }
+    .console-bar { display: flex; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.02); }
+    .console-bar i { width: 11px; height: 11px; margin-right: 8px; border-radius: 50%; display: block; }
     .console-bar i:nth-child(1) { background: #ff6b6b; opacity: .8; }
     .console-bar i:nth-child(2) { background: var(--amber); opacity: .8; }
     .console-bar i:nth-child(3) { background: var(--green); opacity: .8; }
-    .console-bar span { margin-left: 10px; font: 600 12px var(--mono); color: var(--muted); }
+    .console-bar span { margin-left: 2px; font: 600 12px var(--mono); color: var(--muted); }
     .console-body { padding: 22px; font: 13px/1.95 var(--mono); color: var(--text-2); min-height: 270px; }
-    .console-body .ln { display: flex; gap: 10px; opacity: 0; transform: translateY(4px); animation: lnIn .45s forwards; overflow-wrap: anywhere; }
+    .console-body .ln { display: flex; opacity: 0; transform: translateY(4px); animation: lnIn .45s forwards; overflow-wrap: anywhere; }
+    .console-body .ln > .p { margin-right: 10px; }
     .console-body .p { color: var(--blue); }
     .console-body .ok { color: var(--green); }
     .console-body .k { color: var(--muted); }
     .console-body .v { color: var(--blue-light); }
     .cursor { display: inline-block; width: 8px; height: 15px; background: var(--blue-light); vertical-align: -2px; animation: blink 1s steps(2) infinite; }
-    .float { position: absolute; z-index: 3; display: flex; align-items: center; gap: 11px; padding: 11px 15px 11px 11px; border-radius: 16px; border: 1px solid var(--line-2); background: rgba(10,15,27,.9); box-shadow: 0 20px 40px -12px rgba(0,0,0,.7); font-size: 12.5px; font-weight: 700; animation: float 6s ease-in-out infinite; }
+    .float { position: absolute; z-index: 3; display: flex; align-items: center; padding: 11px 15px 11px 11px; border-radius: 16px; border: 1px solid var(--line-2); background: rgba(10,15,27,.9); box-shadow: 0 20px 40px -12px rgba(0,0,0,.7); font-size: 12.5px; font-weight: 700; animation: float 6s ease-in-out infinite; }
+    .float .icon-box { margin-right: 11px; }
     .float small { display: block; font-weight: 500; font-size: 11px; color: var(--muted); }
     .float .icon-box { width: 36px; height: 36px; border-radius: 11px; }
     .float.f1 { left: -22px; top: 0; }
     .float.f2 { right: -16px; bottom: 0; animation-delay: -3s; }
 
     /* About */
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 56px; grid-row-gap: 40px; align-items: center; }
     .about-grid p { color: var(--text-2); font-size: 17px; }
-    .pillars { display: grid; gap: 16px; }
-    .pillar { display: flex; gap: 18px; padding: 22px; align-items: flex-start; transition: transform .25s var(--ease); }
-    .reveal.in.pillar:hover { transform: translateX(6px); }
+    .pillars { display: grid; grid-row-gap: 16px; }
+    .pillar { display: flex; padding: 22px; align-items: flex-start; transition: opacity .8s var(--ease), transform .25s var(--ease); }
+    .pillar .icon-box { margin-right: 18px; }
+    .pillar:hover { transform: translateX(6px); }
     .pillar h3 { font-size: 17px; margin-bottom: 5px; }
     .pillar p { margin: 0; font-size: 14.5px; color: var(--muted); }
 
     /* Features bento + tools */
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 18px; }
     #featureGrid { grid-template-columns: repeat(6, 1fr); }
     #featureGrid .feature { grid-column: span 2; }
     #featureGrid .feature:nth-child(1), #featureGrid .feature:nth-child(4) { grid-column: span 4; }
     #featureGrid .feature:nth-child(5), #featureGrid .feature:nth-child(6) { grid-column: span 3; }
     .feature { padding: 30px; overflow: hidden; transition: opacity .8s var(--ease), transform .3s var(--ease), box-shadow .3s; }
     .feature::after { content: ""; position: absolute; right: -50px; top: -50px; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(47,140,255,.18), transparent 70%); opacity: 0; transition: opacity .35s; pointer-events: none; }
-    .reveal.in.feature:hover { transform: translateY(-5px); box-shadow: 0 30px 60px -24px rgba(47,140,255,.4); }
+    .feature:hover { transform: translateY(-5px); box-shadow: 0 30px 60px -24px rgba(47,140,255,.4); }
     .feature:hover::after { opacity: 1; }
     .feature h3 { font-size: 20px; margin: 22px 0 10px; letter-spacing: -.02em; }
     .feature p { margin: 0; font-size: 15px; color: var(--muted); max-width: 46ch; }
-    .chips { display: inline-flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin: 0 auto 36px; padding: 5px; border: 1px solid var(--line-2); border-radius: 99px; background: rgba(255,255,255,.03); }
-    #toolChips { display: flex; width: fit-content; max-width: 100%; }
-    .chip { padding: 9px 18px; border-radius: 99px; border: 0; background: none; font-size: 13px; font-weight: 700; color: var(--muted); cursor: pointer; transition: all .2s; }
+    .chips { display: inline-flex; flex-wrap: wrap; justify-content: center; margin: 0 auto 36px; padding: 5px; border: 1px solid var(--line-2); border-radius: 99px; background: rgba(255,255,255,.03); }
+    #toolChips { display: flex; max-width: 100%; }
+    .chip { padding: 9px 18px; margin: 2px; border-radius: 99px; border: 0; background: none; font-size: 13px; font-weight: 700; color: var(--muted); cursor: pointer; transition: all .2s; }
     .chip:hover { color: #fff; }
     .chip[aria-pressed="true"] { background-color: var(--blue-2); background-image: linear-gradient(180deg, #3d93ff, var(--blue-2)); color: #fff; box-shadow: 0 6px 20px -6px rgba(47,140,255,.8); }
-    .tool { padding: 24px; display: flex; flex-direction: column; gap: 12px; transition: transform .3s var(--ease); }
+    .tool { padding: 24px; display: flex; flex-direction: column; transition: transform .3s var(--ease); }
+    .tool > * + * { margin-top: 12px; }
     .tool:hover { transform: translateY(-4px); }
-    .tool-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .tool-top { display: flex; align-items: center; justify-content: space-between; }
     .tag { font: 700 10.5px var(--mono); padding: 5px 10px; border-radius: 8px; background: rgba(47,140,255,.1); border: 1px solid rgba(47,140,255,.3); color: var(--blue-light); letter-spacing: .08em; text-transform: uppercase; }
-    .tool h3 { font-size: 17px; margin-top: 4px; }
+    .tool h3 { font-size: 17px; margin-top: 16px; }
     .tool p { margin: 0; font-size: 14px; color: var(--muted); }
     .empty { grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--muted); border: 1px dashed var(--line-2); border-radius: var(--radius); }
 
     /* Downloads */
-    .dl-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: 22px; align-items: start; }
+    .dl-grid { display: grid; grid-template-columns: 1.3fr .7fr; grid-gap: 22px; align-items: start; }
     .release-card { padding: 36px; overflow: hidden;
       background-color: #0d1424;
       background-image:
@@ -280,68 +295,75 @@
       background-position: top left, 0 0, 0 0, 0 0;
       background-repeat: no-repeat;
       box-shadow: var(--shadow); }
-    .cardtop { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+    .cardtop { display: flex; justify-content: space-between; align-items: flex-start; }
     .label { color: var(--muted); font-size: 12px; letter-spacing: .15em; text-transform: uppercase; font-weight: 800; }
-    .version { font: 700 clamp(34px, 5.5vw, 56px)/1.05 var(--display); letter-spacing: -.05em; margin: 10px 0 8px; overflow-wrap: anywhere; color: #e9f2ff; }
-    .date { font-size: 13.5px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+    .version { font: 700 clamp(34px, 5.5vw, 56px)/1.05 var(--display); letter-spacing: -.05em; margin: 10px 0 8px; overflow-wrap: anywhere; color: #e9f2ff; min-height: 40px; }
+    .date { font-size: 13.5px; color: var(--muted); display: flex; align-items: center; }
+    .date .i { margin-right: 8px; }
     .badge { white-space: nowrap; padding: 6px 12px; border-radius: 99px; background: rgba(54,211,153,.1); border: 1px solid rgba(54,211,153,.4); color: #68e6b5; font-size: 11.5px; font-weight: 800; letter-spacing: .08em; }
     .badge.pre { background: rgba(244,199,107,.1); border-color: rgba(244,199,107,.4); color: var(--amber); }
-    .meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 28px 0; }
+    .meta { display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 12px; margin: 28px 0; }
     .meta div { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.025); }
-    .meta small { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; font-weight: 800; }
+    .meta small { display: flex; align-items: center; font-size: 11px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; font-weight: 800; }
+    .meta small .i { margin-right: 7px; }
     .meta b { display: block; margin-top: 6px; font: 600 15px var(--display); overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
-    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
-    .hashrow { display: flex; align-items: center; gap: 10px; margin-top: 20px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 14px; background: rgba(0,0,0,.3); font: 12px var(--mono); color: var(--muted); }
+    .actions { display: flex; flex-wrap: wrap; margin-right: -12px; }
+    .actions > * { margin: 0 12px 12px 0; }
+    .hashrow { display: flex; align-items: center; margin-top: 20px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 14px; background: rgba(0,0,0,.3); font: 12px var(--mono); color: var(--muted); }
+    .hashrow > * + * { margin-left: 10px; }
     .hashrow[hidden] { display: none; }
     .hashrow code { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--blue-light); }
     .hashrow .icon-btn { width: 36px; height: 36px; border-radius: 10px; }
-    .status { font-size: 13.5px; color: var(--muted); margin-top: 18px; display: flex; gap: 8px; align-items: center; }
+    .status { font-size: 13.5px; color: var(--muted); margin-top: 8px; display: flex; align-items: center; }
     .status.error { color: var(--red); }
-    .side { display: grid; gap: 18px; }
+    .side { display: grid; grid-row-gap: 18px; }
     .side .card { padding: 26px; }
-    .side h3 { font-size: 17px; display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-    .steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 14px; position: relative; }
-    .steps li { counter-increment: s; display: flex; gap: 14px; font-size: 14px; color: var(--text-2); align-items: flex-start; }
-    .steps li::before { content: counter(s); flex: none; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 9px; background: linear-gradient(145deg, rgba(47,140,255,.3), rgba(47,140,255,.1)); border: 1px solid rgba(47,140,255,.4); color: var(--blue-light); font: 700 12px var(--mono); }
-    .reqs { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; font-size: 14px; color: var(--text-2); }
-    .reqs li { display: flex; gap: 10px; align-items: center; }
-    .reqs .i { color: var(--green); }
-    .notice { margin-top: 24px; display: flex; gap: 14px; border: 1px solid rgba(244,199,107,.3); background: linear-gradient(90deg, rgba(244,199,107,.08), rgba(244,199,107,.02)); border-radius: 16px; padding: 16px 18px; color: #cdc6b2; font-size: 14px; }
-    .notice .i { color: var(--amber); margin-top: 3px; }
+    .side h3 { font-size: 17px; display: flex; align-items: center; margin-bottom: 16px; }
+    .side h3 .i { margin-right: 10px; }
+    .steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; grid-row-gap: 14px; position: relative; }
+    .steps li { counter-increment: s; display: flex; font-size: 14px; color: var(--text-2); align-items: flex-start; }
+    .steps li::before { content: counter(s); flex: none; width: 26px; height: 26px; margin-right: 14px; display: grid; place-items: center; border-radius: 9px; background: linear-gradient(145deg, rgba(47,140,255,.3), rgba(47,140,255,.1)); border: 1px solid rgba(47,140,255,.4); color: var(--blue-light); font: 700 12px var(--mono); }
+    .reqs { margin: 0; padding: 0; list-style: none; display: grid; grid-row-gap: 12px; font-size: 14px; color: var(--text-2); }
+    .reqs li { display: flex; align-items: center; }
+    .reqs .i { color: var(--green); margin-right: 10px; }
+    .notice { margin-top: 24px; display: flex; border: 1px solid rgba(244,199,107,.3); background: linear-gradient(90deg, rgba(244,199,107,.08), rgba(244,199,107,.02)); border-radius: 16px; padding: 16px 18px; color: #cdc6b2; font-size: 14px; }
+    .notice .i { color: var(--amber); margin-top: 3px; margin-right: 14px; }
     .notice strong { color: var(--amber); }
     .skeleton { position: relative; overflow: hidden; color: transparent !important; background: rgba(255,255,255,.06); border-radius: 8px; }
-    .skeleton::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,.09), transparent); transform: translateX(-100%); animation: shimmer 1.4s infinite; }
+    .skeleton::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,.09), transparent); transform: translateX(-100%); animation: shimmer 1.4s infinite; }
 
     /* Notes */
     .md { color: var(--text-2); font-size: 15px; overflow-wrap: anywhere; }
     .md h4 { font-size: 12.5px; color: var(--blue-light); text-transform: uppercase; letter-spacing: .12em; margin: 22px 0 10px; }
     .md h4:first-child { margin-top: 0; }
     .md p { margin: 0 0 10px; }
-    .md ul { margin: 0 0 10px; padding-left: 20px; display: grid; gap: 6px; }
+    .md ul { margin: 0 0 10px; padding-left: 20px; }
+    .md li { margin-bottom: 6px; }
     .md li::marker { color: var(--blue); }
     .md code { font: 12.5px var(--mono); padding: 2px 7px; border-radius: 6px; background: rgba(47,140,255,.14); color: var(--blue-light); }
     .md a { color: var(--blue-light); }
     .notes-card { padding: 34px; max-width: 880px; margin: 0 auto; }
-    .notes-card .head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 22px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
-    .notes-card .head h3 { font-size: 22px; letter-spacing: -.02em; }
+    .notes-card .head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 22px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+    .notes-card .head h3 { font-size: 22px; letter-spacing: -.02em; margin-right: 12px; }
 
     /* Version history */
-    .toolbar { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; max-width: 880px; margin: 0 auto 26px; }
-    .field { position: relative; flex: 1 1 260px; }
+    .toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; max-width: 880px; margin: 0 auto 26px; }
+    .field { position: relative; flex: 1 1 260px; margin: 0 14px 0 0; }
     .field .i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
     .input { width: 100%; height: 50px; padding: 0 16px 0 44px; border-radius: 14px; border: 1px solid var(--line-2); background: rgba(255,255,255,.035); outline-offset: 2px; transition: border-color .2s, background .2s, box-shadow .2s; }
     .input::placeholder { color: #657392; }
     .input:focus { border-color: var(--blue); background: rgba(47,140,255,.06); box-shadow: 0 0 0 4px rgba(47,140,255,.15); }
-    .toggle { display: inline-flex; align-items: center; gap: 12px; font-size: 13.5px; color: var(--muted); cursor: pointer; user-select: none; }
-    .toggle input { appearance: none; -webkit-appearance: none; position: relative; width: 44px; height: 26px; border-radius: 99px; background: rgba(255,255,255,.08); border: 1px solid var(--line-2); cursor: pointer; transition: background .2s, border-color .2s; margin: 0; flex: none; }
+    .toggle { display: inline-flex; align-items: center; font-size: 13.5px; color: var(--muted); cursor: pointer; user-select: none; }
+    .toggle input { appearance: none; -webkit-appearance: none; position: relative; width: 44px; height: 26px; border-radius: 99px; background: rgba(255,255,255,.08); border: 1px solid var(--line-2); cursor: pointer; transition: background .2s, border-color .2s; margin: 0 12px 0 0; flex: none; }
     .toggle input::after { content: ""; position: absolute; left: 3px; top: 3px; width: 18px; height: 18px; border-radius: 50%; background: #cfd9ea; transition: transform .25s var(--ease), background .2s; }
     .toggle input:checked { background: var(--blue-2); border-color: var(--blue-light); }
     .toggle input:checked::after { transform: translateX(18px); background: #fff; }
-    .timeline { max-width: 880px; margin: 0 auto; position: relative; display: grid; gap: 16px; padding-left: 36px; }
+    .timeline { max-width: 880px; margin: 0 auto; position: relative; display: grid; grid-row-gap: 16px; padding-left: 36px; }
     .timeline::before { content: ""; position: absolute; left: 8px; top: 10px; bottom: 10px; width: 2px; background: linear-gradient(var(--blue), var(--cyan) 50%, transparent); opacity: .5; border-radius: 2px; }
     .vrow::after { content: ""; position: absolute; left: -36px; top: 24px; width: 14px; height: 14px; border-radius: 50%; background: var(--bg); border: 2px solid var(--blue); box-shadow: 0 0 0 5px rgba(47,140,255,.14); }
     .vrow.is-latest::after { background: var(--green); border-color: var(--green); box-shadow: 0 0 0 5px rgba(54,211,153,.18), 0 0 18px rgba(54,211,153,.6); }
-    .vhead { width: 100%; display: flex; align-items: center; gap: 14px; padding: 18px 20px; background: none; border: 0; text-align: left; cursor: pointer; border-radius: var(--radius); }
+    .vhead { width: 100%; display: flex; align-items: center; padding: 18px 20px; background: none; border: 0; text-align: left; cursor: pointer; border-radius: var(--radius); }
+    .vhead > * + * { margin-left: 14px; }
     .vhead:hover { background: rgba(255,255,255,.025); }
     .vtitle { flex: 1; min-width: 0; }
     .vtitle b { display: block; font: 600 17px var(--display); overflow-wrap: anywhere; }
@@ -351,86 +373,94 @@
     .vbody { display: none; padding: 0 20px 20px; border-top: 1px solid var(--line); }
     .vbody.open { display: block; animation: fadeUp .3s; }
     .vbody .md { margin: 18px 0; }
-    .vmeta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 12.5px; color: var(--muted); margin: 16px 0 0; }
-    .vmeta span { display: inline-flex; align-items: center; gap: 6px; }
-    .vmeta i { font-style: normal; }
+    .vmeta { display: flex; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); margin: 16px 0 0; }
+    .vmeta span { display: inline-flex; align-items: center; margin: 0 18px 8px 0; }
+    .vmeta span .i { margin-right: 6px; }
+    .vmeta i.t { font-style: normal; }
 
     /* Docs */
-    .docs { display: grid; grid-template-columns: 260px 1fr; gap: 22px; align-items: start; }
-    .doc-nav { padding: 10px; display: grid; gap: 4px; position: sticky; top: calc(var(--header-h) + 12px); }
-    .doc-tab { display: flex; align-items: center; gap: 11px; width: 100%; padding: 12px 14px; border-radius: 12px; border: 0; background: none; text-align: left; font-size: 14px; font-weight: 650; color: var(--muted); cursor: pointer; transition: all .15s; }
+    .docs { display: grid; grid-template-columns: 260px 1fr; grid-gap: 22px; align-items: start; }
+    .doc-nav { padding: 10px; display: grid; grid-row-gap: 4px; position: sticky; top: calc(var(--header-h) + 12px); }
+    .doc-tab { display: flex; align-items: center; width: 100%; padding: 12px 14px; border-radius: 12px; border: 0; background: none; text-align: left; font-size: 14px; font-weight: 650; color: var(--muted); cursor: pointer; transition: all .15s; }
+    .doc-tab .i { margin-right: 11px; }
     .doc-tab:hover { color: #fff; background: rgba(255,255,255,.05); }
     .doc-tab[aria-selected="true"] { color: #fff; background: linear-gradient(90deg, rgba(47,140,255,.24), rgba(47,140,255,.06)); box-shadow: inset 2px 0 0 var(--blue); }
     .doc-panel { padding: 36px; min-height: 360px; }
     .doc-panel[hidden] { display: none; }
     .doc-panel h3 { font-size: 28px; letter-spacing: -.035em; margin-bottom: 14px; }
     .doc-panel p { color: var(--text-2); }
-    .doc-panel ul, .doc-panel ol { color: var(--text-2); padding-left: 22px; display: grid; gap: 10px; }
+    .doc-panel ul, .doc-panel ol { color: var(--text-2); padding-left: 22px; }
+    .doc-panel li { margin-bottom: 10px; }
     .doc-panel a { color: var(--blue-light); }
     .doc-panel code { font: 13px var(--mono); padding: 2px 7px; border-radius: 6px; background: rgba(47,140,255,.14); color: var(--blue-light); }
-    .callout { display: flex; gap: 12px; padding: 16px 18px; border-radius: 14px; border: 1px solid rgba(47,140,255,.32); background: linear-gradient(90deg, rgba(47,140,255,.1), rgba(47,140,255,.03)); color: var(--text-2); font-size: 14px; margin-top: 22px; }
-    .callout .i { color: var(--blue-light); margin-top: 3px; }
+    .callout { display: flex; padding: 16px 18px; border-radius: 14px; border: 1px solid rgba(47,140,255,.32); background: linear-gradient(90deg, rgba(47,140,255,.1), rgba(47,140,255,.03)); color: var(--text-2); font-size: 14px; margin-top: 22px; }
+    .callout .i { color: var(--blue-light); margin-top: 3px; margin-right: 12px; }
 
     /* FAQ */
-    .faq { max-width: 860px; margin: 0 auto; display: grid; gap: 12px; }
+    .faq { max-width: 860px; margin: 0 auto; display: grid; grid-row-gap: 12px; }
     .qa { border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(165deg, rgba(20,29,50,.6), rgba(10,15,27,.7)); overflow: hidden; transition: border-color .25s, box-shadow .25s; }
     .qa:hover { border-color: var(--line-2); }
     .qa[open] { border-color: rgba(47,140,255,.5); box-shadow: 0 20px 50px -26px rgba(47,140,255,.5); }
-    .qa summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 14px; padding: 20px 22px; font-weight: 700; }
+    .qa summary { list-style: none; cursor: pointer; display: flex; align-items: center; padding: 20px 22px; font-weight: 700; }
     .qa summary::-webkit-details-marker { display: none; }
-    .qa summary > .i:first-child { color: var(--blue-light); }
+    .qa summary > .i:first-child { color: var(--blue-light); margin-right: 14px; }
     .qa summary span { flex: 1; }
-    .qa summary .chev { color: var(--muted); transition: transform .25s; }
+    .qa summary .chev { color: var(--muted); transition: transform .25s; margin-left: 14px; }
     .qa[open] summary .chev { transform: rotate(180deg); }
     .qa .ans { padding: 0 22px 22px 58px; color: var(--text-2); font-size: 15px; }
 
     /* Contact */
-    .contact-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 22px; }
-    .contact-info { padding: 32px; display: grid; gap: 26px; align-content: start; }
-    .crow { display: flex; gap: 16px; align-items: flex-start; }
+    .contact-grid { display: grid; grid-template-columns: .9fr 1.1fr; grid-gap: 22px; }
+    .contact-info { padding: 32px; display: grid; grid-row-gap: 26px; align-content: start; }
+    .crow { display: flex; align-items: flex-start; }
+    .crow .icon-box { margin-right: 16px; }
     .crow h3 { font-size: 16px; margin-bottom: 3px; }
     .crow p, .crow a { margin: 0; font-size: 14.5px; color: var(--muted); overflow-wrap: anywhere; }
     .crow a:hover { color: var(--blue-light); }
-    .form { padding: 32px; display: grid; gap: 18px; }
-    .form label { display: grid; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-2); }
+    .form { padding: 32px; display: grid; grid-row-gap: 18px; }
+    .form label { display: grid; grid-row-gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-2); }
     .form .input { padding-left: 16px; }
     .form textarea.input { height: 150px; padding-top: 14px; resize: vertical; }
     .form select.input { appearance: none; -webkit-appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 22px) 22px, calc(100% - 16px) 22px; background-size: 6px 6px; background-repeat: no-repeat; }
     .form select option { background: var(--panel); }
-    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; grid-gap: 16px; }
     .form-note { font-size: 12.5px; color: var(--muted); margin: 0; }
 
     /* Footer */
     footer { position: relative; margin-top: 40px; border-top: 1px solid var(--line); padding: 72px 0 34px; background: linear-gradient(180deg, transparent, rgba(47,140,255,.06)); }
-    footer::before { content: ""; position: absolute; top: -1px; left: 50%; width: min(70%, 640px); height: 1px; transform: translateX(-50%); background: linear-gradient(90deg, transparent, var(--blue), var(--cyan), transparent); }
-    .foot-grid { display: grid; grid-template-columns: 1.6fr repeat(3, 1fr); gap: 40px; }
+    footer::before { content: ""; position: absolute; top: -1px; left: 50%; width: 70%; max-width: 640px; height: 1px; transform: translateX(-50%); background: linear-gradient(90deg, transparent, var(--blue), var(--cyan), transparent); }
+    .foot-grid { display: grid; grid-template-columns: 1.6fr repeat(3, 1fr); grid-gap: 40px; }
     .foot-grid p { color: var(--muted); font-size: 14px; max-width: 320px; }
     .foot-grid h4 { font: 700 12px var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
-    .foot-grid ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+    .foot-grid ul { list-style: none; margin: 0; padding: 0; display: grid; grid-row-gap: 10px; }
     .foot-grid li a { color: var(--text-2); text-decoration: none; font-size: 14px; transition: color .15s, padding .2s; }
     .foot-grid li a:hover { color: var(--blue-light); padding-left: 4px; }
-    .foot-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--muted); }
+    .foot-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--muted); }
     .foot-bottom a { color: var(--blue-light); text-decoration: none; }
     .to-top { position: fixed; right: 20px; bottom: 20px; z-index: 90; opacity: 0; pointer-events: none; transform: translateY(10px); transition: all .25s; background: var(--panel-2); box-shadow: 0 14px 30px -8px rgba(0,0,0,.7); }
     .to-top.show { opacity: 1; pointer-events: auto; transform: none; }
 
     /* Search dialog */
-    dialog.palette { width: min(660px, calc(100% - 28px)); margin: 10vh auto auto; padding: 0; border: 1px solid var(--line-2); border-radius: 22px; background: #0a0f1b; color: var(--text); box-shadow: 0 50px 140px rgba(0,0,0,.8), 0 0 0 1px rgba(47,140,255,.15); overflow: hidden; }
+    dialog.palette { width: calc(100% - 28px); max-width: 660px; margin: 10vh auto auto; padding: 0; border: 1px solid var(--line-2); border-radius: 22px; background: #0a0f1b; color: var(--text); box-shadow: 0 50px 140px rgba(0,0,0,.8), 0 0 0 1px rgba(47,140,255,.15); overflow: hidden; }
+    dialog.palette:not([open]) { display: none; }
     dialog.palette::backdrop { background: rgba(3,5,10,.72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-    .pal-top { display: flex; align-items: center; gap: 12px; padding: 0 16px 0 20px; border-bottom: 1px solid var(--line); }
-    .pal-top input { flex: 1; height: 62px; background: none; border: 0; outline: 0; font-size: 16px; }
-    .pal-list { list-style: none; margin: 0; padding: 8px; max-height: min(52vh, 440px); overflow: auto; }
-    .pal-item a { display: flex; align-items: center; gap: 14px; padding: 11px 12px; border-radius: 13px; text-decoration: none; }
+    .pal-top { display: flex; align-items: center; padding: 0 16px 0 20px; border-bottom: 1px solid var(--line); }
+    .pal-top input { flex: 1; height: 62px; margin: 0 12px; background: none; border: 0; outline: 0; font-size: 16px; }
+    .pal-list { list-style: none; margin: 0; padding: 8px; max-height: 52vh; overflow: auto; }
+    .pal-item a { display: flex; align-items: center; padding: 11px 12px; border-radius: 13px; text-decoration: none; }
+    .pal-item a > .icon-box { margin-right: 14px; }
     .pal-item a:hover, .pal-item a.active { background: rgba(47,140,255,.16); }
     .pal-item b { display: block; font-size: 14.5px; }
     .pal-item small { display: block; font-size: 12.5px; color: var(--muted); }
     .pal-item .type { margin-left: auto; font: 700 10.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
     .pal-empty { padding: 32px; text-align: center; color: var(--muted); font-size: 14px; }
-    .pal-foot { display: flex; gap: 18px; padding: 12px 18px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+    .pal-foot { display: flex; padding: 12px 18px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+    .pal-foot span { margin-right: 18px; }
 
-    /* Motion */
-    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: var(--d, 0s); }
-    .reveal.in { opacity: 1; transform: none; }
+    /* Motion: hidden only when JS runs, and always revealed by the failsafe */
+    .js .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: var(--d, 0s); }
+    .js .reveal.in { opacity: 1; transform: none; }
+    .reveal-all .reveal { opacity: 1 !important; transform: none !important; }
     @keyframes pulse { 50% { opacity: .45; } }
     @keyframes blink { 50% { opacity: 0; } }
     @keyframes scan { to { transform: translateY(460px); } }
@@ -445,7 +475,7 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-      .reveal { opacity: 1; transform: none; }
+      .js .reveal { opacity: 1; transform: none; }
     }
 
     /* Responsive */
@@ -456,14 +486,13 @@
     }
     @media (max-width: 960px) {
       :root { --header-h: 76px; }
-      /* backdrop-filter would trap the fixed mobile menu inside the header, so it is off here */
       .nav { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(8,11,20,.92); border-color: var(--line-2); }
       .menu-btn { display: inline-grid; }
-      .navlinks { position: fixed; inset: var(--header-h) 0 0 0; flex-direction: column; align-items: stretch; gap: 6px; padding: 20px; background: rgba(5,7,13,.98); transform: translateX(100%); visibility: hidden; transition: transform .3s var(--ease), visibility .3s; overflow: auto; }
+      .navlinks { position: fixed; top: var(--header-h); right: 0; bottom: 0; left: 0; flex-direction: column; align-items: stretch; padding: 20px; background: rgba(5,7,13,.98); transform: translateX(100%); visibility: hidden; transition: transform .3s var(--ease), visibility .3s; overflow: auto; }
+      .navlinks li { margin: 0 0 6px; }
       .navlinks.open { transform: none; visibility: visible; }
       .navlinks a { padding: 16px 18px; font-size: 17px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.025); }
       .hero-grid, .about-grid, .dl-grid, .contact-grid { grid-template-columns: 1fr; }
-      .hero-grid { gap: 48px; }
       .hero-visual::before, .hero-visual::after { display: none; }
       .grid-3, #featureGrid { grid-template-columns: repeat(2, 1fr); }
       #featureGrid .feature, #featureGrid .feature:nth-child(n) { grid-column: auto; }
@@ -473,7 +502,7 @@
       .section { padding: 84px 0; }
     }
     @media (max-width: 600px) {
-      .wrap { width: min(100% - 28px, 1200px); }
+      .wrap { width: calc(100% - 28px); }
       .grid-3, #featureGrid { grid-template-columns: 1fr; }
       .stats { max-width: none; }
       .stat { padding: 14px 12px; }
@@ -482,6 +511,8 @@
       .meta div:first-child { grid-column: 1 / -1; }
       .row2 { grid-template-columns: 1fr; }
       .actions .btn, .hero-actions .btn { width: 100%; }
+      .actions, .hero-actions { margin-right: 0; }
+      .actions > *, .hero-actions > * { margin-right: 0; }
       .release-card, .notes-card, .doc-panel, .form, .contact-info { padding: 22px; }
       .qa .ans { padding-left: 22px; }
       .foot-grid { grid-template-columns: 1fr; }
@@ -581,7 +612,7 @@
           <h1 id="hero-title">HACKIN9 <span class="grad">(H9)</span><small>Security toolkit for Android</small></h1>
           <p class="lead">The official home of HACKIN9 by Resonex. Download the latest verified APK, follow every release, and read the documentation, all in one place.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#downloads"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg> Get the latest APK</a>
+            <a class="btn btn-primary" id="heroDownloadBtn" href="https://github.com/Resonex/h9-releases/releases/latest"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg> Get the latest APK</a>
             <a class="btn" href="#docs"><svg class="i" aria-hidden="true"><use href="#i-book"/></svg> Read the docs</a>
           </div>
           <div class="stats" aria-label="Latest release summary">
@@ -648,20 +679,20 @@
       </div>
     </section>
 
-    <!-- DOWNLOADS -->
+    <!-- DOWNLOADS (no scroll-reveal here, so the download button can never be hidden) -->
     <section class="section" id="downloads" aria-labelledby="dl-title">
       <div class="wrap">
-        <div class="section-head reveal">
+        <div class="section-head">
           <div class="eyebrow"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg> Downloads</div>
           <h2 class="title" id="dl-title">Download the latest APK</h2>
           <p class="lead">Fetched live from the official GitHub release feed.</p>
         </div>
         <div class="dl-grid">
-          <article class="card release-card reveal" aria-labelledby="version">
+          <article class="card release-card" aria-labelledby="version">
             <div class="cardtop">
               <div>
                 <div class="label">Latest release</div>
-                <div class="version skeleton" id="version">Loading</div>
+                <div class="version" id="version">Loading...</div>
                 <div class="date"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg><span id="releaseDate">Fetching official release details</span></div>
               </div>
               <span class="badge" id="releaseBadge">STABLE</span>
@@ -672,9 +703,9 @@
               <div><small><svg class="i" aria-hidden="true"><use href="#i-download"/></svg> Downloads</small><b id="downloads">--</b></div>
             </div>
             <div class="actions">
-              <a class="btn btn-primary" id="downloadBtn" href="https://github.com/Resonex/h9-releases/releases" target="_blank" rel="noopener noreferrer"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg> <span id="downloadLabel">Download APK</span></a>
-              <a class="btn" id="notesBtn" href="#changelog"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg> Release notes</a>
-              <a class="btn" id="allReleasesBtn" href="https://github.com/Resonex/h9-releases/releases" target="_blank" rel="noopener noreferrer"><svg class="i" aria-hidden="true"><use href="#i-external"/></svg> All releases</a>
+              <a class="btn btn-primary" id="downloadBtn" href="https://github.com/Resonex/h9-releases/releases/latest" target="_blank" rel="noopener noreferrer"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg><span id="downloadLabel">Download APK</span></a>
+              <a class="btn" id="notesBtn" href="#changelog"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg>Release notes</a>
+              <a class="btn" id="allReleasesBtn" href="https://github.com/Resonex/h9-releases/releases" target="_blank" rel="noopener noreferrer"><svg class="i" aria-hidden="true"><use href="#i-external"/></svg>All releases</a>
             </div>
             <div class="hashrow" id="hashRow" hidden>
               <svg class="i" aria-hidden="true"><use href="#i-hash"/></svg>
@@ -684,7 +715,7 @@
             <div class="status" id="status" role="status" aria-live="polite">Connecting to the official release feed...</div>
           </article>
           <aside class="side">
-            <div class="card reveal" style="--d:.08s">
+            <div class="card">
               <h3><svg class="i" aria-hidden="true"><use href="#i-phone"/></svg> Install in 4 steps</h3>
               <ol class="steps">
                 <li>Download the APK using the button.</li>
@@ -693,7 +724,7 @@
                 <li>Tap Install, then open HACKIN9.</li>
               </ol>
             </div>
-            <div class="card reveal" style="--d:.16s">
+            <div class="card">
               <h3><svg class="i" aria-hidden="true"><use href="#i-cpu"/></svg> Requirements</h3>
               <ul class="reqs">
                 <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg> Android device</li>
@@ -703,7 +734,7 @@
             </div>
           </aside>
         </div>
-        <div class="notice reveal"><svg class="i" aria-hidden="true"><use href="#i-alert"/></svg><div><strong>Installation note:</strong> Android may ask you to allow installation from your browser or file manager. Only install APK files you trust, and verify that they come from the official HACKIN9 release source.</div></div>
+        <div class="notice"><svg class="i" aria-hidden="true"><use href="#i-alert"/></svg><div><strong>Installation note:</strong> Android may ask you to allow installation from your browser or file manager. Only install APK files you trust, and verify that they come from the official HACKIN9 release source.</div></div>
       </div>
     </section>
 
@@ -718,7 +749,7 @@
         <article class="card notes-card reveal">
           <div class="head">
             <h3 id="notesTitle">Latest release</h3>
-            <a class="btn btn-sm" id="notesLink" href="https://github.com/Resonex/h9-releases/releases" target="_blank" rel="noopener noreferrer"><svg class="i" aria-hidden="true"><use href="#i-external"/></svg> View on GitHub</a>
+            <a class="btn btn-sm" id="notesLink" href="https://github.com/Resonex/h9-releases/releases" target="_blank" rel="noopener noreferrer"><svg class="i" aria-hidden="true"><use href="#i-external"/></svg>View on GitHub</a>
           </div>
           <div class="md" id="notes">Loading official release notes...</div>
         </article>
@@ -769,7 +800,7 @@
           <p class="lead">Quick answers to the most common questions.</p>
         </div>
         <div class="toolbar">
-          <div class="field">
+          <div class="field" style="margin-right:0">
             <svg class="i" aria-hidden="true"><use href="#i-search"/></svg>
             <label class="sr-only" for="faqSearch">Filter questions</label>
             <input class="input" id="faqSearch" type="search" placeholder="Filter questions" autocomplete="off">
@@ -807,7 +838,7 @@
               </select>
             </label>
             <label>Message<textarea class="input" name="message" required minlength="10" maxlength="2000"></textarea></label>
-            <button class="btn btn-primary" type="submit"><svg class="i" aria-hidden="true"><use href="#i-send"/></svg> Send message</button>
+            <button class="btn btn-primary" type="submit"><svg class="i" aria-hidden="true"><use href="#i-send"/></svg>Send message</button>
             <p class="form-note" id="formNote" role="status">Sending opens your email app with the message prefilled.</p>
           </form>
         </div>
@@ -845,18 +876,19 @@
     <div class="pal-foot"><span><kbd>Up</kbd> <kbd>Down</kbd> navigate</span><span><kbd>Enter</kbd> open</span><span><kbd>Esc</kbd> close</span></div>
   </dialog>
 
-  <noscript><div class="wrap" style="padding:20px 0;color:#c3ccdb">JavaScript is required for the live release feed. You can still download from the <a href="https://github.com/Resonex/h9-releases/releases">official GitHub releases page</a>.</div></noscript>
+  <noscript><div class="wrap" style="padding:20px 0;color:#c3ccdb">JavaScript is required for the live release feed. You can still download from the <a href="https://github.com/Resonex/h9-releases/releases/latest">official GitHub releases page</a>.</div></noscript>
 
   <script>
     "use strict";
 
     /* ===== Configuration: edit content here ===== */
-    const GITHUB_OWNER = "Resonex";
-    const GITHUB_REPO = "h9-releases";
-    const CONTACT_EMAIL = "contact@hackin9.name.ng";
-    const CACHE_MINUTES = 10;
+    var GITHUB_OWNER = "Resonex";
+    var GITHUB_REPO = "h9-releases";
+    var CONTACT_EMAIL = "contact@hackin9.name.ng";
+    var CACHE_MINUTES = 10;
+    var FETCH_TIMEOUT_MS = 12000;
 
-    const FEATURES = [
+    var FEATURES = [
       { icon: "shield", title: "Security focused", text: "Designed around privacy and safety, with a clear and predictable interface." },
       { icon: "zap", title: "Fast and lightweight", text: "Optimised to stay responsive on modern and budget Android devices alike." },
       { icon: "scan", title: "Inspection tools", text: "Analyse and understand what is happening on your device and network." },
@@ -865,7 +897,7 @@
       { icon: "history", title: "Regular updates", text: "Published releases with clear notes, so you always know what changed." }
     ];
 
-    const TOOLS = [
+    var TOOLS = [
       { icon: "wifi", cat: "Network", title: "Network tools", text: "Inspect connectivity and review nearby network information." },
       { icon: "scan", cat: "Network", title: "Scanner", text: "Discover and examine hosts and services you are authorised to test." },
       { icon: "hash", cat: "Crypto", title: "Hash utility", text: "Generate and compare checksums to verify file integrity." },
@@ -876,31 +908,31 @@
       { icon: "activity", cat: "System", title: "Activity monitor", text: "Follow system activity and resource usage in real time." }
     ];
 
-    const DOCS = [
-      { id: "start", icon: "home", title: "Getting started", body: `
-        <h3>Getting started</h3>
-        <p>HACKIN9 is distributed as an Android APK. Follow these steps to install the latest version.</p>
-        <ol><li>Open the <a href="#downloads">Downloads</a> section and tap <strong>Download APK</strong>.</li><li>When the download finishes, open the file.</li><li>If prompted, allow installs from your browser or file manager.</li><li>Tap <strong>Install</strong> and wait for it to complete.</li></ol>
-        <div class="callout"><svg class="i" aria-hidden="true"><use href="#i-info"/></svg><span>You only need to allow unknown sources for the app you used to open the APK, and you can turn it off afterwards.</span></div>` },
-      { id: "verify", icon: "hash", title: "Verify your download", body: `
-        <h3>Verify your download</h3>
-        <p>When GitHub provides a checksum for the release file, it is displayed under the download button as a SHA-256 value.</p>
-        <ul><li>Compute the SHA-256 of the downloaded file with a hash utility.</li><li>Compare it to the value shown on this page.</li><li>If they differ, delete the file and download it again from this site.</li></ul>
-        <div class="callout"><svg class="i" aria-hidden="true"><use href="#i-shield"/></svg><span>Only download from this website or the official GitHub releases page.</span></div>` },
-      { id: "update", icon: "history", title: "Updating", body: `
-        <h3>Updating HACKIN9</h3>
-        <p>To update, download the newest APK and install it over the existing app. Your data is normally kept.</p>
-        <ul><li>Check the <a href="#changelog">release notes</a> before updating.</li><li>Install the new APK the same way as the first time.</li><li>If an update fails, uninstall and reinstall the latest version.</li></ul>` },
-      { id: "perms", icon: "lock", title: "Permissions", body: `
-        <h3>Permissions</h3>
-        <p>Android asks for permissions the first time a feature needs them. You can review or revoke them at any time in your device settings under Apps, then HACKIN9, then Permissions.</p>
-        <ul><li>Grant only what you need for the tools you use.</li><li>Denying a permission may limit the related tool.</li></ul>` },
-      { id: "trouble", icon: "alert", title: "Troubleshooting", body: `
-        <h3>Troubleshooting</h3>
-        <ul><li><strong>App not installed:</strong> make sure you have enough free storage and that an older conflicting build is removed.</li><li><strong>Parse error:</strong> the download may be incomplete. Download the APK again.</li><li><strong>Install blocked:</strong> allow installs from your browser or file manager in Android settings.</li><li><strong>Still stuck:</strong> use the <a href="#contact">contact form</a> and include your Android version and the HACKIN9 version.</li></ul>` }
+    var DOCS = [
+      { id: "start", icon: "home", title: "Getting started", body: '' +
+        '<h3>Getting started</h3>' +
+        '<p>HACKIN9 is distributed as an Android APK. Follow these steps to install the latest version.</p>' +
+        '<ol><li>Open the <a href="#downloads">Downloads</a> section and tap <strong>Download APK</strong>.</li><li>When the download finishes, open the file.</li><li>If prompted, allow installs from your browser or file manager.</li><li>Tap <strong>Install</strong> and wait for it to complete.</li></ol>' +
+        '<div class="callout"><svg class="i" aria-hidden="true"><use href="#i-info"/></svg><span>You only need to allow unknown sources for the app you used to open the APK, and you can turn it off afterwards.</span></div>' },
+      { id: "verify", icon: "hash", title: "Verify your download", body: '' +
+        '<h3>Verify your download</h3>' +
+        '<p>When GitHub provides a checksum for the release file, it is displayed under the download button as a SHA-256 value.</p>' +
+        '<ul><li>Compute the SHA-256 of the downloaded file with a hash utility.</li><li>Compare it to the value shown on this page.</li><li>If they differ, delete the file and download it again from this site.</li></ul>' +
+        '<div class="callout"><svg class="i" aria-hidden="true"><use href="#i-shield"/></svg><span>Only download from this website or the official GitHub releases page.</span></div>' },
+      { id: "update", icon: "history", title: "Updating", body: '' +
+        '<h3>Updating HACKIN9</h3>' +
+        '<p>To update, download the newest APK and install it over the existing app. Your data is normally kept.</p>' +
+        '<ul><li>Check the <a href="#changelog">release notes</a> before updating.</li><li>Install the new APK the same way as the first time.</li><li>If an update fails, uninstall and reinstall the latest version.</li></ul>' },
+      { id: "perms", icon: "lock", title: "Permissions", body: '' +
+        '<h3>Permissions</h3>' +
+        '<p>Android asks for permissions the first time a feature needs them. You can review or revoke them at any time in your device settings under Apps, then HACKIN9, then Permissions.</p>' +
+        '<ul><li>Grant only what you need for the tools you use.</li><li>Denying a permission may limit the related tool.</li></ul>' },
+      { id: "trouble", icon: "alert", title: "Troubleshooting", body: '' +
+        '<h3>Troubleshooting</h3>' +
+        '<ul><li><strong>App not installed:</strong> make sure you have enough free storage and that an older conflicting build is removed.</li><li><strong>Parse error:</strong> the download may be incomplete. Download the APK again.</li><li><strong>Install blocked:</strong> allow installs from your browser or file manager in Android settings.</li><li><strong>Still stuck:</strong> use the <a href="#contact">contact form</a> and include your Android version and the HACKIN9 version.</li></ul>' }
     ];
 
-    const FAQS = [
+    var FAQS = [
       { q: "What is HACKIN9 (H9)?", a: "HACKIN9, also written H9, is an Android app published by Resonex. This website is its official home for downloads, release notes and documentation." },
       { q: "Is the APK download free?", a: "Yes. The APK is published openly in the official GitHub releases repository and can be downloaded at no cost." },
       { q: "Where do the downloads come from?", a: "Every download button on this site points directly to a file attached to an official GitHub release. Nothing is hosted on third-party mirrors." },
@@ -912,41 +944,46 @@
     ];
 
     /* ===== Helpers ===== */
-    const $ = id => document.getElementById(id);
-    const qs = (s, r = document) => r.querySelector(s);
-    const qsa = (s, r = document) => Array.from(r.querySelectorAll(s));
-    const repoUrl = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}`;
-    const releasesUrl = `${repoUrl}/releases`;
-    const icon = (n, c = "i i-lg") => `<svg class="${c}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
-    const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-    const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function $(id) { return document.getElementById(id); }
+    function qs(s, r) { return (r || document).querySelector(s); }
+    function qsa(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+    function safe(fn) { try { fn(); } catch (e) { if (window.console) console.error(e); } }
+    function onMedia(mq, cb) { if (mq.addEventListener) mq.addEventListener("change", cb); else if (mq.addListener) mq.addListener(cb); }
+
+    var repoUrl = "https://github.com/" + GITHUB_OWNER + "/" + GITHUB_REPO;
+    var releasesUrl = repoUrl + "/releases";
+    var latestUrl = releasesUrl + "/latest";
+    function icon(n, c) { return '<svg class="' + (c || "i i-lg") + '" aria-hidden="true"><use href="#i-' + n + '"/></svg>'; }
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+    var reduceMotion = false;
+    safe(function () { reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches; });
 
     function humanSize(bytes) {
-      if (!Number.isFinite(bytes) || bytes <= 0) return "Unknown";
-      const u = ["B", "KB", "MB", "GB"]; let s = bytes, i = 0;
+      if (!isFinite(bytes) || bytes <= 0) return "Unknown";
+      var u = ["B", "KB", "MB", "GB"], s = bytes, i = 0;
       while (s >= 1024 && i < u.length - 1) { s /= 1024; i++; }
-      return `${s.toFixed(i >= 2 ? 1 : 0)} ${u[i]}`;
+      return s.toFixed(i >= 2 ? 1 : 0) + " " + u[i];
     }
-    const fmtDate = d => d ? new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "Date unavailable";
-    const fmtNum = n => (Number(n) || 0).toLocaleString("en-US");
+    function fmtDate(d) { return d ? new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "Date unavailable"; }
+    function fmtNum(n) { return (Number(n) || 0).toLocaleString("en-US"); }
     function pickApk(assets) {
-      return (assets || []).filter(a => /\.apk$/i.test(a.name)).sort((a, b) => {
-        const score = n => /universal|release|arm64|all/i.test(n) ? 1 : 0;
+      return (assets || []).filter(function (a) { return /\.apk$/i.test(a.name); }).sort(function (a, b) {
+        var score = function (n) { return /universal|release|arm64|all/i.test(n) ? 1 : 0; };
         return score(b.name) - score(a.name);
       })[0];
     }
-    const releaseName = r => r.name || r.tag_name || "Release";
+    function releaseName(r) { return r.name || r.tag_name || "Release"; }
 
     /* Safe, minimal markdown renderer (builds DOM nodes, never injects release HTML) */
     function inline(text, parent) {
-      const re = /(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\(https?:\/\/[^)\s]+\))/g;
-      text.split(re).forEach(part => {
+      var re = /(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\(https?:\/\/[^)\s]+\))/g;
+      text.split(re).forEach(function (part) {
         if (!part) return;
-        let el;
+        var el;
         if (/^\*\*/.test(part)) { el = document.createElement("strong"); el.textContent = part.slice(2, -2); }
         else if (/^`/.test(part)) { el = document.createElement("code"); el.textContent = part.slice(1, -1); }
         else if (/^\[/.test(part)) {
-          const m = part.match(/^\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)$/);
+          var m = part.match(/^\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)$/);
           el = document.createElement("a"); el.textContent = m[1]; el.href = m[2]; el.target = "_blank"; el.rel = "noopener noreferrer";
         } else { el = document.createTextNode(part); }
         parent.appendChild(el);
@@ -954,342 +991,409 @@
     }
     function renderMarkdown(text, target) {
       target.textContent = "";
-      const src = (text || "").trim();
-      if (!src) { const p = document.createElement("p"); p.textContent = "No release notes were provided for this version."; target.appendChild(p); return; }
-      let list = null;
-      src.slice(0, 8000).replace(/```[^\n]*\n?/g, "").split(/\r?\n/).forEach(raw => {
-        const line = raw.trim();
+      var src = (text || "").trim();
+      if (!src) { var p0 = document.createElement("p"); p0.textContent = "No release notes were provided for this version."; target.appendChild(p0); return; }
+      var list = null;
+      src.slice(0, 8000).replace(/```[^\n]*\n?/g, "").split(/\r?\n/).forEach(function (raw) {
+        var line = raw.trim();
         if (!line) { list = null; return; }
-        let m;
-        if ((m = line.match(/^#{1,6}\s+(.*)$/))) { list = null; const h = document.createElement("h4"); inline(m[1], h); target.appendChild(h); }
+        var m;
+        if ((m = line.match(/^#{1,6}\s+(.*)$/))) { list = null; var h = document.createElement("h4"); inline(m[1], h); target.appendChild(h); }
         else if ((m = line.match(/^[-*+]\s+(.*)$/))) {
           if (!list) { list = document.createElement("ul"); target.appendChild(list); }
-          const li = document.createElement("li"); inline(m[1], li); list.appendChild(li);
-        } else { list = null; const p = document.createElement("p"); inline(line, p); target.appendChild(p); }
+          var li = document.createElement("li"); inline(m[1], li); list.appendChild(li);
+        } else { list = null; var p = document.createElement("p"); inline(line, p); target.appendChild(p); }
       });
     }
 
-    /* ===== Static content rendering ===== */
-    $("year").textContent = new Date().getFullYear();
-    $("repoLink").href = repoUrl; $("footRepo").href = repoUrl;
-    $("allReleasesBtn").href = releasesUrl; $("notesLink").href = releasesUrl;
-    $("downloadBtn").href = releasesUrl;
-    $("issuesLink").href = `${repoUrl}/issues`;
-    $("mailLink").href = `mailto:${CONTACT_EMAIL}`; $("mailLink").textContent = CONTACT_EMAIL;
-
-    $("featureGrid").innerHTML = FEATURES.map((f, i) => `
-      <article class="card feature reveal" style="--d:${(i % 3) * .08}s">
-        <div class="icon-box">${icon(f.icon)}</div><h3>${esc(f.title)}</h3><p>${esc(f.text)}</p>
-      </article>`).join("");
-
-    const cats = ["All", ...new Set(TOOLS.map(t => t.cat))];
-    let activeCat = "All";
+    /* ===== Static content (each block is isolated so one failure cannot stop the rest) ===== */
+    var activeCat = "All";
     function renderTools() {
-      $("toolGrid").innerHTML = TOOLS.filter(t => activeCat === "All" || t.cat === activeCat).map(t => `
-        <article class="card tool"><div class="tool-top"><div class="icon-box">${icon(t.icon)}</div><span class="tag">${esc(t.cat)}</span></div>
-        <h3>${esc(t.title)}</h3><p>${esc(t.text)}</p></article>`).join("");
+      $("toolGrid").innerHTML = TOOLS.filter(function (t) { return activeCat === "All" || t.cat === activeCat; }).map(function (t) {
+        return '<article class="card tool"><div class="tool-top"><div class="icon-box">' + icon(t.icon) + '</div><span class="tag">' + esc(t.cat) + '</span></div>' +
+          '<h3>' + esc(t.title) + '</h3><p>' + esc(t.text) + '</p></article>';
+      }).join("");
     }
-    $("toolChips").innerHTML = cats.map(c => `<button type="button" class="chip" data-cat="${esc(c)}" aria-pressed="${c === "All"}">${esc(c)}</button>`).join("");
-    $("toolChips").addEventListener("click", e => {
-      const b = e.target.closest(".chip"); if (!b) return;
-      activeCat = b.dataset.cat;
-      qsa(".chip").forEach(c => c.setAttribute("aria-pressed", String(c === b)));
-      renderTools();
-    });
-    renderTools();
-
-    /* Docs tabs */
-    $("docNav").innerHTML = DOCS.map((d, i) => `<button class="doc-tab" role="tab" id="tab-${d.id}" aria-controls="panel-${d.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" type="button">${icon(d.icon, "i")} ${esc(d.title)}</button>`).join("");
-    $("docPanels").innerHTML = DOCS.map((d, i) => `<div class="card doc-panel" role="tabpanel" id="panel-${d.id}" aria-labelledby="tab-${d.id}" ${i ? "hidden" : ""}>${d.body}</div>`).join("");
     function selectDoc(id, focus) {
-      DOCS.forEach(d => {
-        const on = d.id === id;
-        const t = $(`tab-${d.id}`); t.setAttribute("aria-selected", String(on)); t.tabIndex = on ? 0 : -1;
-        $(`panel-${d.id}`).hidden = !on;
+      DOCS.forEach(function (d) {
+        var on = d.id === id;
+        var t = $("tab-" + d.id); t.setAttribute("aria-selected", String(on)); t.tabIndex = on ? 0 : -1;
+        $("panel-" + d.id).hidden = !on;
         if (on && focus) t.focus();
       });
     }
-    $("docNav").addEventListener("click", e => { const t = e.target.closest(".doc-tab"); if (t) selectDoc(t.id.replace("tab-", "")); });
-    $("docNav").addEventListener("keydown", e => {
-      const keys = ["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft", "Home", "End"];
-      if (!keys.includes(e.key)) return;
-      e.preventDefault();
-      const ids = DOCS.map(d => d.id);
-      let i = ids.findIndex(id => $(`tab-${id}`).getAttribute("aria-selected") === "true");
-      if (e.key === "Home") i = 0; else if (e.key === "End") i = ids.length - 1;
-      else i = (i + (/Down|Right/.test(e.key) ? 1 : -1) + ids.length) % ids.length;
-      selectDoc(ids[i], true);
-    });
-
-    /* FAQ */
-    function renderFaq(filter = "") {
-      const f = filter.trim().toLowerCase();
-      const items = FAQS.filter(x => !f || (x.q + " " + x.a).toLowerCase().includes(f));
-      $("faqList").innerHTML = items.length ? items.map(x => `
-        <details class="qa"><summary>${icon("help", "i")}<span>${esc(x.q)}</span>${icon("chevron", "i chev")}</summary><div class="ans">${esc(x.a)}</div></details>`).join("")
-        : `<div class="empty">No questions match your search.</div>`;
+    function renderFaq(filter) {
+      var f = (filter || "").trim().toLowerCase();
+      var items = FAQS.filter(function (x) { return !f || (x.q + " " + x.a).toLowerCase().indexOf(f) > -1; });
+      $("faqList").innerHTML = items.length ? items.map(function (x) {
+        return '<details class="qa"><summary>' + icon("help", "i") + '<span>' + esc(x.q) + '</span>' + icon("chevron", "i chev") + '</summary><div class="ans">' + esc(x.a) + '</div></details>';
+      }).join("") : '<div class="empty">No questions match your search.</div>';
     }
-    renderFaq();
-    $("faqSearch").addEventListener("input", e => renderFaq(e.target.value));
-    const ld = document.createElement("script");
-    ld.type = "application/ld+json";
-    ld.textContent = JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: FAQS.map(x => ({ "@type": "Question", name: x.q, acceptedAnswer: { "@type": "Answer", text: x.a } })) });
-    document.head.appendChild(ld);
 
-    /* Contact form (opens the visitor's email app) */
-    $("contactForm").addEventListener("submit", e => {
-      e.preventDefault();
-      const f = new FormData(e.target);
-      const subject = `[HACKIN9] ${f.get("topic")}`;
-      const body = `${f.get("message")}\n\nFrom: ${f.get("name")} <${f.get("email")}>`;
-      $("formNote").textContent = "Opening your email app. If nothing happens, email us directly at " + CONTACT_EMAIL + ".";
-      location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    });
+    function initBasics() {
+      $("year").textContent = new Date().getFullYear();
+      $("repoLink").href = repoUrl; $("footRepo").href = repoUrl;
+      $("allReleasesBtn").href = releasesUrl; $("notesLink").href = releasesUrl;
+      $("issuesLink").href = repoUrl + "/issues";
+      $("mailLink").href = "mailto:" + CONTACT_EMAIL; $("mailLink").textContent = CONTACT_EMAIL;
+    }
+    function initFeatures() {
+      $("featureGrid").innerHTML = FEATURES.map(function (f, i) {
+        return '<article class="card feature reveal" style="--d:' + ((i % 3) * 0.08) + 's"><div class="icon-box">' + icon(f.icon) + '</div><h3>' + esc(f.title) + '</h3><p>' + esc(f.text) + '</p></article>';
+      }).join("");
+    }
+    function initTools() {
+      var cats = ["All"];
+      TOOLS.forEach(function (t) { if (cats.indexOf(t.cat) < 0) cats.push(t.cat); });
+      $("toolChips").innerHTML = cats.map(function (c) { return '<button type="button" class="chip" data-cat="' + esc(c) + '" aria-pressed="' + (c === "All") + '">' + esc(c) + '</button>'; }).join("");
+      $("toolChips").addEventListener("click", function (e) {
+        var b = e.target.closest(".chip"); if (!b) return;
+        activeCat = b.getAttribute("data-cat");
+        qsa(".chip").forEach(function (c) { c.setAttribute("aria-pressed", String(c === b)); });
+        renderTools();
+      });
+      renderTools();
+    }
+    function initDocs() {
+      $("docNav").innerHTML = DOCS.map(function (d, i) {
+        return '<button class="doc-tab" role="tab" id="tab-' + d.id + '" aria-controls="panel-' + d.id + '" aria-selected="' + (i === 0) + '" tabindex="' + (i === 0 ? 0 : -1) + '" type="button">' + icon(d.icon, "i") + ' ' + esc(d.title) + '</button>';
+      }).join("");
+      $("docPanels").innerHTML = DOCS.map(function (d, i) {
+        return '<div class="card doc-panel" role="tabpanel" id="panel-' + d.id + '" aria-labelledby="tab-' + d.id + '" ' + (i ? "hidden" : "") + '>' + d.body + '</div>';
+      }).join("");
+      $("docNav").addEventListener("click", function (e) { var t = e.target.closest(".doc-tab"); if (t) selectDoc(t.id.replace("tab-", "")); });
+      $("docNav").addEventListener("keydown", function (e) {
+        var keys = ["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft", "Home", "End"];
+        if (keys.indexOf(e.key) < 0) return;
+        e.preventDefault();
+        var ids = DOCS.map(function (d) { return d.id; });
+        var i = 0;
+        ids.forEach(function (id, n) { if ($("tab-" + id).getAttribute("aria-selected") === "true") i = n; });
+        if (e.key === "Home") i = 0; else if (e.key === "End") i = ids.length - 1;
+        else i = (i + (/Down|Right/.test(e.key) ? 1 : -1) + ids.length) % ids.length;
+        selectDoc(ids[i], true);
+      });
+    }
+    function initFaq() {
+      renderFaq();
+      $("faqSearch").addEventListener("input", function (e) { renderFaq(e.target.value); });
+      var ld = document.createElement("script");
+      ld.type = "application/ld+json";
+      ld.textContent = JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: FAQS.map(function (x) { return { "@type": "Question", name: x.q, acceptedAnswer: { "@type": "Answer", text: x.a } }; }) });
+      document.head.appendChild(ld);
+    }
+    function initContact() {
+      $("contactForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var f = e.target.elements;
+        var subject = "[HACKIN9] " + f.topic.value;
+        var body = f.message.value + "\n\nFrom: " + f.name.value + " <" + f.email.value + ">";
+        $("formNote").textContent = "Opening your email app. If nothing happens, email us directly at " + CONTACT_EMAIL + ".";
+        location.href = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+      });
+    }
 
     /* ===== GitHub release system ===== */
-    async function gh(path) {
-      const key = `h9:${path}`;
+    function gh(path) {
+      var key = "h9:" + path;
       try {
-        const c = JSON.parse(sessionStorage.getItem(key) || "null");
-        if (c && Date.now() - c.t < CACHE_MINUTES * 60000) return c.d;
+        var c = JSON.parse(sessionStorage.getItem(key) || "null");
+        if (c && Date.now() - c.t < CACHE_MINUTES * 60000) return Promise.resolve(c.d);
       } catch (_) {}
-      const res = await fetch(`https://api.github.com/repos/${encodeURIComponent(GITHUB_OWNER)}/${encodeURIComponent(GITHUB_REPO)}${path}`, { headers: { Accept: "application/vnd.github+json" } });
-      if (!res.ok) {
-        if (res.status === 404) throw new Error("No published release was found. Check the repository and release settings.");
-        if (res.status === 403 || res.status === 429) throw new Error("The release service is temporarily rate-limited. Try again later.");
-        throw new Error(`GitHub returned status ${res.status}. Please try again later.`);
-      }
-      const data = await res.json();
-      try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), d: data })); } catch (_) {}
-      return data;
+      var url = "https://api.github.com/repos/" + encodeURIComponent(GITHUB_OWNER) + "/" + encodeURIComponent(GITHUB_REPO) + path;
+      var opts = { headers: { Accept: "application/vnd.github+json" } };
+      var timer = null;
+      if (window.AbortController) { var ctl = new AbortController(); opts.signal = ctl.signal; timer = setTimeout(function () { ctl.abort(); }, FETCH_TIMEOUT_MS); }
+      return fetch(url, opts).then(function (res) {
+        if (timer) clearTimeout(timer);
+        if (!res.ok) {
+          if (res.status === 404) throw new Error("No published release was found. Check the repository and release settings.");
+          if (res.status === 403 || res.status === 429) throw new Error("The release service is temporarily rate-limited. Try again later.");
+          throw new Error("GitHub returned status " + res.status + ". Please try again later.");
+        }
+        return res.json();
+      }).then(function (data) {
+        try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), d: data })); } catch (_) {}
+        return data;
+      }).catch(function (err) {
+        if (timer) clearTimeout(timer);
+        if (err && err.name === "AbortError") throw new Error("The release service took too long to respond.");
+        throw err;
+      });
     }
 
     function consoleLines(lines) {
-      const box = $("consoleBody"); box.textContent = "";
-      lines.forEach((l, i) => {
-        const row = document.createElement("div"); row.className = "ln"; row.style.animationDelay = reduceMotion ? "0s" : `${i * .28}s`;
-        const p = document.createElement("span"); p.className = "p"; p.textContent = ">";
-        const t = document.createElement("span");
-        if (l.k) { const k = document.createElement("span"); k.className = "k"; k.textContent = l.k + " "; t.appendChild(k); }
-        const v = document.createElement("span"); v.className = l.cls || "v"; v.textContent = l.v; t.appendChild(v);
-        row.append(p, t); box.appendChild(row);
+      var box = $("consoleBody"); box.textContent = "";
+      lines.forEach(function (l, i) {
+        var row = document.createElement("div"); row.className = "ln"; row.style.animationDelay = reduceMotion ? "0s" : (i * 0.28) + "s";
+        var p = document.createElement("span"); p.className = "p"; p.textContent = ">";
+        var t = document.createElement("span");
+        if (l.k) { var k = document.createElement("span"); k.className = "k"; k.textContent = l.k + " "; t.appendChild(k); }
+        var v = document.createElement("span"); v.className = l.cls || "v"; v.textContent = l.v; t.appendChild(v);
+        row.appendChild(p); row.appendChild(t); box.appendChild(row);
       });
-      const cur = document.createElement("div"); cur.className = "ln"; cur.style.animationDelay = reduceMotion ? "0s" : `${lines.length * .28}s`;
-      cur.innerHTML = `<span class="p">></span><span class="cursor"></span>`; box.appendChild(cur);
+      var cur = document.createElement("div"); cur.className = "ln"; cur.style.animationDelay = reduceMotion ? "0s" : (lines.length * 0.28) + "s";
+      cur.innerHTML = '<span class="p">></span><span class="cursor"></span>'; box.appendChild(cur);
     }
-    consoleLines([{ k: "connect", v: "api.github.com" }, { k: "fetch", v: "latest release..." }]);
 
-    function unskeleton(...ids) { ids.forEach(i => $(i).classList.remove("skeleton")); }
+    function unskeleton() { Array.prototype.forEach.call(arguments, function (i) { var el = $(i); if (el) el.classList.remove("skeleton"); }); }
 
     /* The download button is never hidden or dead: it either downloads the APK or opens the releases page */
     function setDownloadFallback(msg, isErr, url, label) {
-      const b = $("downloadBtn");
-      b.href = url || releasesUrl;
+      var b = $("downloadBtn");
+      b.href = url || latestUrl;
       b.target = "_blank"; b.rel = "noopener noreferrer";
-      b.removeAttribute("download"); b.removeAttribute("aria-disabled");
+      b.removeAttribute("download");
       $("downloadLabel").textContent = label || "Open releases page";
       $("status").textContent = msg; $("status").classList.toggle("error", !!isErr);
+      var hb = $("heroDownloadBtn"); if (hb) hb.href = "#downloads";
     }
 
     function renderLatest(rel, totalDownloads) {
-      const apk = pickApk(rel.assets);
-      unskeleton("version", "heroVersion", "heroSize", "heroDownloads");
+      var apk = pickApk(rel.assets);
+      unskeleton("heroVersion", "heroSize", "heroDownloads");
       $("version").textContent = releaseName(rel);
-      $("releaseDate").textContent = `Released ${fmtDate(rel.published_at)}`;
+      $("releaseDate").textContent = "Released " + fmtDate(rel.published_at);
       $("releaseBadge").textContent = rel.prerelease ? "PRE-RELEASE" : "STABLE";
       $("releaseBadge").classList.toggle("pre", !!rel.prerelease);
       $("allReleasesBtn").href = rel.html_url || releasesUrl;
       $("notesLink").href = rel.html_url || releasesUrl;
-      $("notesTitle").textContent = `${releaseName(rel)} release notes`;
+      $("notesTitle").textContent = releaseName(rel) + " release notes";
       renderMarkdown(rel.body, $("notes"));
       $("heroVersion").textContent = rel.tag_name || releaseName(rel);
       $("heroDownloads").textContent = fmtNum(totalDownloads);
 
-      const lines = [{ k: "release", v: rel.tag_name || releaseName(rel) }, { k: "published", v: fmtDate(rel.published_at) }];
+      var lines = [{ k: "release", v: rel.tag_name || releaseName(rel) }, { k: "published", v: fmtDate(rel.published_at) }];
       if (!apk) {
         $("fileName").textContent = "Not attached"; $("fileSize").textContent = "--"; $("downloads").textContent = "--"; $("heroSize").textContent = "--";
-        setDownloadFallback("Release found, but no APK file is attached. Open the release page for available files.", true, rel.html_url, "Open release page");
+        setDownloadFallback("Release found, but no APK file is attached to it. Open the release page for available files.", true, rel.html_url, "Open release page");
         lines.push({ k: "asset", v: "no APK attached", cls: "k" });
         consoleLines(lines); return;
       }
-      const b = $("downloadBtn");
+      var b = $("downloadBtn");
       b.href = apk.browser_download_url;
-      b.removeAttribute("aria-disabled"); b.removeAttribute("target"); b.removeAttribute("rel");
+      b.removeAttribute("target"); b.removeAttribute("rel");
       b.setAttribute("download", apk.name);
       $("downloadLabel").textContent = "Download APK";
+      var hb = $("heroDownloadBtn"); if (hb) { hb.href = apk.browser_download_url; hb.setAttribute("download", apk.name); }
       $("fileName").textContent = apk.name; $("fileSize").textContent = humanSize(apk.size); $("downloads").textContent = fmtNum(apk.download_count);
       $("heroSize").textContent = humanSize(apk.size);
       $("status").classList.remove("error");
       $("status").textContent = "Latest release information loaded from the official GitHub repository.";
       lines.push({ k: "asset", v: apk.name }, { k: "size", v: humanSize(apk.size) });
-      const sha = apk.digest && /^sha256:/i.test(apk.digest) ? apk.digest.slice(7) : "";
+      var sha = apk.digest && /^sha256:/i.test(apk.digest) ? apk.digest.slice(7) : "";
       if (sha) { $("hashVal").textContent = sha; $("hashRow").hidden = false; lines.push({ k: "sha256", v: sha.slice(0, 16) + "..." }); }
       lines.push({ v: "ready to download", cls: "ok" });
       consoleLines(lines);
     }
 
     function showReleaseError(msg) {
-      unskeleton("version", "heroVersion", "heroSize", "heroDownloads");
+      unskeleton("heroVersion", "heroSize", "heroDownloads");
       $("version").textContent = "Release unavailable";
       $("heroVersion").textContent = "--"; $("heroSize").textContent = "--"; $("heroDownloads").textContent = "--";
       $("releaseDate").textContent = "Please use the button below";
       $("notes").textContent = "We could not load release information right now. Use the All releases link or try again later.";
-      $("timeline").innerHTML = `<div class="empty">Version history is unavailable right now. <a href="${releasesUrl}" target="_blank" rel="noopener noreferrer">View releases on GitHub</a>.</div>`;
-      setDownloadFallback(msg + " You can still get the APK from the GitHub releases page.", true, releasesUrl, "Open releases page");
+      $("timeline").innerHTML = '<div class="empty">Version history is unavailable right now. <a href="' + releasesUrl + '" target="_blank" rel="noopener noreferrer">View releases on GitHub</a>.</div>';
+      setDownloadFallback(msg + " You can still get the APK from the GitHub releases page.", true, latestUrl, "Open releases page");
       consoleLines([{ k: "error", v: msg, cls: "k" }]);
     }
 
-    let allReleases = [], latestId = null;
+    var allReleases = [], latestId = null;
     function renderHistory() {
-      const q = $("vSearch").value.trim().toLowerCase(), hide = $("hidePre").checked;
-      const rows = allReleases.filter(r => !r.draft && (!hide || !r.prerelease) && (!q || `${releaseName(r)} ${r.tag_name} ${r.body || ""}`.toLowerCase().includes(q)));
-      const box = $("timeline"); box.textContent = "";
-      if (!rows.length) { box.innerHTML = `<div class="empty">No versions match your search.</div>`; return; }
-      rows.forEach((r, i) => {
-        const apk = pickApk(r.assets), id = `v-${r.id}`;
-        const row = document.createElement("article"); row.className = "card vrow" + (r.id === latestId ? " is-latest" : "");
-        row.innerHTML = `
-          <button class="vhead" type="button" aria-expanded="false" aria-controls="${id}">
-            <div class="vtitle"><b></b><span></span></div><span class="badge"></span>${icon("chevron", "i chev")}
-          </button>
-          <div class="vbody" id="${id}" role="region">
-            <div class="vmeta"></div><div class="md"></div><div class="actions"></div>
-          </div>`;
+      var q = $("vSearch").value.trim().toLowerCase(), hide = $("hidePre").checked;
+      var rows = allReleases.filter(function (r) {
+        return !r.draft && (!hide || !r.prerelease) && (!q || (releaseName(r) + " " + r.tag_name + " " + (r.body || "")).toLowerCase().indexOf(q) > -1);
+      });
+      var box = $("timeline"); box.textContent = "";
+      if (!rows.length) { box.innerHTML = '<div class="empty">No versions match your search.</div>'; return; }
+      rows.forEach(function (r, i) {
+        var apk = pickApk(r.assets), id = "v-" + r.id;
+        var row = document.createElement("article"); row.className = "card vrow" + (r.id === latestId ? " is-latest" : "");
+        row.innerHTML =
+          '<button class="vhead" type="button" aria-expanded="false" aria-controls="' + id + '">' +
+            '<div class="vtitle"><b></b><span></span></div><span class="badge"></span>' + icon("chevron", "i chev") +
+          '</button>' +
+          '<div class="vbody" id="' + id + '" role="region"><div class="vmeta"></div><div class="md"></div><div class="actions"></div></div>';
         qs(".vtitle b", row).textContent = releaseName(r);
         qs(".vtitle span", row).textContent = fmtDate(r.published_at);
-        const badge = qs(".badge", row);
+        var badge = qs(".badge", row);
         badge.textContent = r.id === latestId ? "LATEST" : (r.prerelease ? "PRE-RELEASE" : "STABLE");
         if (r.prerelease) badge.classList.add("pre");
-        const meta = qs(".vmeta", row);
-        meta.innerHTML = `<span>${icon("file", "i")}<i></i></span><span>${icon("database", "i")}<i></i></span><span>${icon("download", "i")}<i></i></span>`;
-        const is = qsa("i:not(.i)", meta);
-        is[0].textContent = apk ? apk.name : "No APK attached"; is[1].textContent = apk ? humanSize(apk.size) : "--"; is[2].textContent = apk ? `${fmtNum(apk.download_count)} downloads` : "--";
+        var meta = qs(".vmeta", row);
+        meta.innerHTML = '<span>' + icon("file", "i") + '<i class="t"></i></span><span>' + icon("database", "i") + '<i class="t"></i></span><span>' + icon("download", "i") + '<i class="t"></i></span>';
+        var is = qsa("i.t", meta);
+        is[0].textContent = apk ? apk.name : "No APK attached"; is[1].textContent = apk ? humanSize(apk.size) : "--"; is[2].textContent = apk ? fmtNum(apk.download_count) + " downloads" : "--";
         renderMarkdown(r.body, qs(".md", row));
-        const act = qs(".actions", row);
-        if (apk) { const a = document.createElement("a"); a.className = "btn btn-primary btn-sm"; a.href = apk.browser_download_url; a.setAttribute("download", apk.name); a.innerHTML = `${icon("download", "i")} Download APK`; act.appendChild(a); }
-        const g = document.createElement("a"); g.className = "btn btn-sm"; g.href = r.html_url; g.target = "_blank"; g.rel = "noopener noreferrer"; g.innerHTML = `${icon("external", "i")} GitHub`; act.appendChild(g);
-        const head = qs(".vhead", row), body = qs(".vbody", row);
-        head.addEventListener("click", () => { const open = head.getAttribute("aria-expanded") === "true"; head.setAttribute("aria-expanded", String(!open)); body.classList.toggle("open", !open); });
+        var act = qs(".actions", row);
+        if (apk) { var a = document.createElement("a"); a.className = "btn btn-primary btn-sm"; a.href = apk.browser_download_url; a.setAttribute("download", apk.name); a.innerHTML = icon("download", "i") + "Download APK"; act.appendChild(a); }
+        var g = document.createElement("a"); g.className = "btn btn-sm"; g.href = r.html_url; g.target = "_blank"; g.rel = "noopener noreferrer"; g.innerHTML = icon("external", "i") + "GitHub"; act.appendChild(g);
+        var head = qs(".vhead", row), body = qs(".vbody", row);
+        head.addEventListener("click", function () { var open = head.getAttribute("aria-expanded") === "true"; head.setAttribute("aria-expanded", String(!open)); body.classList.toggle("open", !open); });
         if (i === 0 && !q) { head.setAttribute("aria-expanded", "true"); body.classList.add("open"); }
         box.appendChild(row);
       });
     }
-    $("vSearch").addEventListener("input", renderHistory);
-    $("hidePre").addEventListener("change", renderHistory);
 
-    async function loadReleases() {
-      try {
-        const [latest, list] = await Promise.all([gh("/releases/latest"), gh("/releases?per_page=30").catch(() => [])]);
+    var buildIndex = function () {};
+
+    function loadReleases() {
+      return Promise.all([gh("/releases/latest"), gh("/releases?per_page=30").catch(function () { return []; })]).then(function (res) {
+        var latest = res[0], list = res[1];
         allReleases = Array.isArray(list) ? list : [];
-        if (!allReleases.some(r => r.id === latest.id)) allReleases.unshift(latest);
+        if (!allReleases.some(function (r) { return r.id === latest.id; })) allReleases.unshift(latest);
         latestId = latest.id;
-        const total = allReleases.reduce((n, r) => n + (r.assets || []).reduce((m, a) => m + (a.download_count || 0), 0), 0);
-        renderLatest(latest, total);
-        renderHistory();
-        buildIndex();
-      } catch (err) {
-        showReleaseError(err && err.message ? err.message : "Could not connect to the release feed.");
-      }
+        var total = allReleases.reduce(function (n, r) { return n + (r.assets || []).reduce(function (m, a) { return m + (a.download_count || 0); }, 0); }, 0);
+        safe(function () { renderLatest(latest, total); });
+        safe(renderHistory);
+        safe(buildIndex);
+      }).catch(function (err) {
+        safe(function () { showReleaseError(err && err.message ? err.message : "Could not connect to the release feed."); });
+      });
     }
-    $("copyHash").addEventListener("click", async () => {
-      try { await navigator.clipboard.writeText($("hashVal").textContent); $("copyHash").innerHTML = icon("check", "i"); setTimeout(() => { $("copyHash").innerHTML = icon("copy", "i"); }, 1800); } catch (_) {}
-    });
+
+    function initRelease() {
+      consoleLines([{ k: "connect", v: "api.github.com" }, { k: "fetch", v: "latest release..." }]);
+      $("vSearch").addEventListener("input", renderHistory);
+      $("hidePre").addEventListener("change", renderHistory);
+      $("copyHash").addEventListener("click", function () {
+        var done = function () { $("copyHash").innerHTML = icon("check", "i"); setTimeout(function () { $("copyHash").innerHTML = icon("copy", "i"); }, 1800); };
+        try { navigator.clipboard.writeText($("hashVal").textContent).then(done, function () {}); } catch (_) {}
+      });
+    }
 
     /* ===== Site search palette ===== */
-    const pal = $("palette"), palInput = $("palInput"), palList = $("palList");
-    let index = [], activeIdx = 0, shown = [];
-    function buildIndex() {
-      index = [
-        ...[["home", "Home", "Overview and latest release", "#home"], ["info", "About H9", "Who makes HACKIN9", "#about"], ["download", "Downloads", "Download the latest APK", "#downloads"], ["file", "Release notes", "Latest changelog", "#changelog"], ["history", "Version history", "All published versions", "#versions"], ["mail", "Contact", "Email and issue tracker", "#contact"]].map(([ic, t, d, h]) => ({ ic, t, d, h, type: "Section" })),
-        ...FEATURES.map(f => ({ ic: f.icon, t: f.title, d: f.text, h: "#features", type: "Feature" })),
-        ...TOOLS.map(f => ({ ic: f.icon, t: f.title, d: f.text, h: "#tools", type: "Tool" })),
-        ...DOCS.map(d => ({ ic: d.icon, t: d.title, d: "Documentation", h: "#docs", type: "Docs", doc: d.id })),
-        ...FAQS.map(f => ({ ic: "help", t: f.q, d: f.a, h: "#faq", type: "FAQ" })),
-        ...allReleases.filter(r => !r.draft).map(r => ({ ic: "history", t: releaseName(r), d: fmtDate(r.published_at), h: "#versions", type: "Version" }))
-      ];
+    var index = [], activeIdx = 0, shown = [];
+    function initPalette() {
+      var pal = $("palette"), palInput = $("palInput"), palList = $("palList");
+      buildIndex = function () {
+        index = [].concat(
+          [["home", "Home", "Overview and latest release", "#home"], ["info", "About H9", "Who makes HACKIN9", "#about"], ["download", "Downloads", "Download the latest APK", "#downloads"], ["file", "Release notes", "Latest changelog", "#changelog"], ["history", "Version history", "All published versions", "#versions"], ["mail", "Contact", "Email and issue tracker", "#contact"]].map(function (a) { return { ic: a[0], t: a[1], d: a[2], h: a[3], type: "Section" }; }),
+          FEATURES.map(function (f) { return { ic: f.icon, t: f.title, d: f.text, h: "#features", type: "Feature" }; }),
+          TOOLS.map(function (f) { return { ic: f.icon, t: f.title, d: f.text, h: "#tools", type: "Tool" }; }),
+          DOCS.map(function (d) { return { ic: d.icon, t: d.title, d: "Documentation", h: "#docs", type: "Docs", doc: d.id }; }),
+          FAQS.map(function (f) { return { ic: "help", t: f.q, d: f.a, h: "#faq", type: "FAQ" }; }),
+          allReleases.filter(function (r) { return !r.draft; }).map(function (r) { return { ic: "history", t: releaseName(r), d: fmtDate(r.published_at), h: "#versions", type: "Version" }; })
+        );
+      };
+      buildIndex();
+      function renderPalette() {
+        var q = palInput.value.trim().toLowerCase(), words = q.split(/\s+/).filter(Boolean);
+        shown = (words.length ? index.filter(function (x) { var hay = (x.t + " " + x.d + " " + x.type).toLowerCase(); return words.every(function (w) { return hay.indexOf(w) > -1; }); }) : index.slice(0, 8)).slice(0, 12);
+        activeIdx = 0;
+        palList.innerHTML = shown.length ? shown.map(function (x, i) {
+          return '<li class="pal-item" role="presentation"><a href="' + x.h + '" role="option" data-i="' + i + '" class="' + (i === 0 ? "active" : "") + '" aria-selected="' + (i === 0) + '"><span class="icon-box" style="width:38px;height:38px;border-radius:12px">' + icon(x.ic, "i") + '</span><span><b>' + esc(x.t) + '</b><small>' + esc(x.d.length > 80 ? x.d.slice(0, 80) + "..." : x.d) + '</small></span><span class="type">' + esc(x.type) + '</span></a></li>';
+        }).join("") : '<li class="pal-empty">No results for this search.</li>';
+      }
+      function setActive(i) {
+        var items = qsa("a", palList); if (!items.length) return;
+        activeIdx = (i + items.length) % items.length;
+        items.forEach(function (a, n) { a.classList.toggle("active", n === activeIdx); a.setAttribute("aria-selected", String(n === activeIdx)); });
+        items[activeIdx].scrollIntoView({ block: "nearest" });
+      }
+      function openPalette() {
+        if (!pal.showModal) { location.hash = "#features"; return; }
+        if (!pal.open) pal.showModal();
+        palInput.value = ""; renderPalette(); palInput.focus();
+      }
+      function go(x) { pal.close(); if (x && x.doc) selectDoc(x.doc); }
+      $("searchBtn").addEventListener("click", openPalette);
+      $("palClose").addEventListener("click", function () { pal.close(); });
+      pal.addEventListener("click", function (e) { if (e.target === pal) pal.close(); });
+      palInput.addEventListener("input", renderPalette);
+      palInput.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowDown") { e.preventDefault(); setActive(activeIdx + 1); }
+        else if (e.key === "ArrowUp") { e.preventDefault(); setActive(activeIdx - 1); }
+        else if (e.key === "Enter") { var a = qsa("a", palList)[activeIdx]; if (a) { e.preventDefault(); go(shown[activeIdx]); location.hash = a.getAttribute("href"); } }
+      });
+      palList.addEventListener("click", function (e) { var a = e.target.closest("a"); if (a) go(shown[+a.getAttribute("data-i")]); });
+      document.addEventListener("keydown", function (e) {
+        var typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+        if ((e.key === "/" && !typing) || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k")) { e.preventDefault(); openPalette(); }
+      });
     }
-    buildIndex();
-    function renderPalette() {
-      const q = palInput.value.trim().toLowerCase(), words = q.split(/\s+/).filter(Boolean);
-      shown = (words.length ? index.filter(x => words.every(w => `${x.t} ${x.d} ${x.type}`.toLowerCase().includes(w))) : index.slice(0, 8)).slice(0, 12);
-      activeIdx = 0;
-      palList.innerHTML = shown.length ? shown.map((x, i) => `<li class="pal-item" role="presentation"><a href="${x.h}" role="option" data-i="${i}" class="${i === 0 ? "active" : ""}" aria-selected="${i === 0}"><span class="icon-box" style="width:38px;height:38px;border-radius:12px">${icon(x.ic, "i")}</span><span><b>${esc(x.t)}</b><small>${esc(x.d.length > 80 ? x.d.slice(0, 80) + "..." : x.d)}</small></span><span class="type">${esc(x.type)}</span></a></li>`).join("") : `<li class="pal-empty">No results for this search.</li>`;
-    }
-    function setActive(i) {
-      const items = qsa("a", palList); if (!items.length) return;
-      activeIdx = (i + items.length) % items.length;
-      items.forEach((a, n) => { a.classList.toggle("active", n === activeIdx); a.setAttribute("aria-selected", String(n === activeIdx)); });
-      items[activeIdx].scrollIntoView({ block: "nearest" });
-    }
-    function openPalette() { renderPalette(); if (!pal.open) pal.showModal(); palInput.value = ""; renderPalette(); palInput.focus(); }
-    function goto(x) { pal.close(); if (x.doc) selectDoc(x.doc); }
-    $("searchBtn").addEventListener("click", openPalette);
-    $("palClose").addEventListener("click", () => pal.close());
-    pal.addEventListener("click", e => { if (e.target === pal) pal.close(); });
-    palInput.addEventListener("input", renderPalette);
-    palInput.addEventListener("keydown", e => {
-      if (e.key === "ArrowDown") { e.preventDefault(); setActive(activeIdx + 1); }
-      else if (e.key === "ArrowUp") { e.preventDefault(); setActive(activeIdx - 1); }
-      else if (e.key === "Enter") { const a = qsa("a", palList)[activeIdx]; if (a) { e.preventDefault(); goto(shown[activeIdx]); location.hash = a.getAttribute("href"); } }
-    });
-    palList.addEventListener("click", e => { const a = e.target.closest("a"); if (a) goto(shown[+a.dataset.i]); });
-    document.addEventListener("keydown", e => {
-      const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
-      if ((e.key === "/" && !typing) || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k")) { e.preventDefault(); openPalette(); }
-    });
 
     /* ===== Mobile nav ===== */
-    const menuBtn = $("menuBtn"), navlinks = $("navlinks");
-    function setMenu(open) {
-      navlinks.classList.toggle("open", open); menuBtn.setAttribute("aria-expanded", String(open));
-      menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-      menuBtn.innerHTML = icon(open ? "x" : "menu", "i");
-      document.body.classList.toggle("lock", open);
+    function initNav() {
+      var menuBtn = $("menuBtn"), navlinks = $("navlinks");
+      function setMenu(open) {
+        navlinks.classList.toggle("open", open); menuBtn.setAttribute("aria-expanded", String(open));
+        menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+        menuBtn.innerHTML = icon(open ? "x" : "menu", "i");
+        document.body.classList.toggle("lock", open);
+      }
+      menuBtn.addEventListener("click", function () { setMenu(!navlinks.classList.contains("open")); });
+      navlinks.addEventListener("click", function (e) { if (e.target.closest("a")) setMenu(false); });
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape" && navlinks.classList.contains("open")) { setMenu(false); menuBtn.focus(); } });
+      onMedia(window.matchMedia("(min-width: 961px)"), function (e) { if (e.matches) setMenu(false); });
     }
-    menuBtn.addEventListener("click", () => setMenu(!navlinks.classList.contains("open")));
-    navlinks.addEventListener("click", e => { if (e.target.closest("a")) setMenu(false); });
-    document.addEventListener("keydown", e => { if (e.key === "Escape" && navlinks.classList.contains("open")) { setMenu(false); menuBtn.focus(); } });
-    matchMedia("(min-width: 961px)").addEventListener("change", e => { if (e.matches) setMenu(false); });
 
     /* ===== Scroll behaviour ===== */
-    const header = $("top-header"), toTop = $("toTop"), bar = $("progress");
-    let ticking = false;
-    function onScroll() {
-      ticking = false;
-      header.classList.toggle("scrolled", scrollY > 8);
-      toTop.classList.toggle("show", scrollY > 700);
-      const max = document.documentElement.scrollHeight - innerHeight;
-      bar.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max) : 0})`;
+    function initScroll() {
+      var header = $("top-header"), toTop = $("toTop"), bar = $("progress"), ticking = false;
+      function onScroll() {
+        ticking = false;
+        var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+        header.classList.toggle("scrolled", y > 8);
+        toTop.classList.toggle("show", y > 700);
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, y / max) : 0) + ")";
+      }
+      window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+      onScroll();
+      toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" }); });
     }
-    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
-    onScroll();
-    toTop.addEventListener("click", () => scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" }));
 
-    /* Cursor spotlight on cards (pointer devices only, throttled with rAF) */
-    if (matchMedia("(hover: hover)").matches && !reduceMotion) {
-      let pending = null;
-      document.addEventListener("pointermove", e => {
-        const c = e.target.closest && e.target.closest(".card");
+    /* Cursor spotlight on cards (pointer devices only) */
+    function initSpotlight() {
+      if (!window.matchMedia("(hover: hover)").matches || reduceMotion) return;
+      var pending = null;
+      document.addEventListener("pointermove", function (e) {
+        var c = e.target.closest && e.target.closest(".card");
         if (!c) return;
         if (pending) cancelAnimationFrame(pending);
-        pending = requestAnimationFrame(() => {
-          const r = c.getBoundingClientRect();
+        pending = requestAnimationFrame(function () {
+          var r = c.getBoundingClientRect();
           c.style.setProperty("--mx", (e.clientX - r.left) + "px");
           c.style.setProperty("--my", (e.clientY - r.top) + "px");
         });
       }, { passive: true });
     }
 
-    const links = qsa(".navlinks a");
-    const spy = new IntersectionObserver(entries => {
-      entries.forEach(en => { if (en.isIntersecting) links.forEach(a => { if (a.getAttribute("href") === `#${en.target.id}`) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current"); }); });
-    }, { rootMargin: "-45% 0px -50% 0px" });
-    qsa("main section[id]").forEach(s => spy.observe(s));
+    function initSpy() {
+      if (!("IntersectionObserver" in window)) return;
+      var links = qsa(".navlinks a");
+      var spy = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) links.forEach(function (a) { if (a.getAttribute("href") === "#" + en.target.id) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current"); });
+        });
+      }, { rootMargin: "-45% 0px -50% 0px" });
+      qsa("main section[id]").forEach(function (s) { spy.observe(s); });
+    }
 
-    const io = "IntersectionObserver" in window && !reduceMotion ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .12, rootMargin: "0px 0px -40px 0px" }) : null;
-    qsa(".reveal").forEach(el => io ? io.observe(el) : el.classList.add("in"));
+    function initReveal() {
+      var els = qsa(".reveal");
+      if (!("IntersectionObserver" in window) || reduceMotion) { els.forEach(function (el) { el.classList.add("in"); }); return; }
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+      }, { threshold: 0.05, rootMargin: "0px 0px -20px 0px" });
+      els.forEach(function (el) { io.observe(el); });
+    }
 
-    loadReleases();
+    /* ===== Boot ===== */
+    safe(initBasics);
+    safe(initRelease);
+    loadReleases();            /* starts the release feed right away, independent of everything else */
+    safe(initFeatures);
+    safe(initTools);
+    safe(initDocs);
+    safe(initFaq);
+    safe(initContact);
+    safe(initPalette);
+    safe(initNav);
+    safe(initScroll);
+    safe(initSpotlight);
+    safe(initSpy);
+    safe(initReveal);
   </script>
 </body>
 </html>
