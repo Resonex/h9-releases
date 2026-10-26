@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reset Password - Hackin9</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Segoe UI,sans-serif}
+body{background:#0f1115;display:flex;align-items:center;justify-content:center;min-height:100vh;color:#fff}
+.card{background:#181b22;border:1px solid #242832;border-radius:16px;padding:32px;width:100%;max-width:420px}
+h1{font-size:20px;margin-bottom:6px} .sub{color:#8b91a1;font-size:13px;margin-bottom:20px}
+.input{width:100%;background:#0f1115;border:1px solid #242832;border-radius:8px;padding:12px 14px;color:#fff;margin-bottom:14px}
+.btn{width:100%;background:#fff;color:#000;padding:12px;border-radius:8px;border:none;font-weight:600;cursor:pointer}
+.msg{margin-top:16px;font-size:13px;text-align:center;color:#8b91a1}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>Reset your password</h1><p class="sub">Enter a new password for your Hackin9 account.</p>
+<input type="password" id="newPass" class="input" placeholder="New password">
+<input type="password" id="confirmPass" class="input" placeholder="Confirm password">
+<button class="btn" id="btn">Update password</button>
+<p class="msg" id="msg"></p>
+</div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, confirmPasswordReset, verifyPasswordResetCode } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+const firebaseConfig = { apiKey: "AIzaSyD8X_PYhwQYDjvoJXfDx58j4CHjS1Zx_cs", authDomain: "h9-database.firebaseapp.com", projectId: "h9-database" };
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const params = new URLSearchParams(location.search);
+const oobCode = params.get('oobCode');
+const msg = document.getElementById('msg');
+verifyPasswordResetCode(auth, oobCode).catch(()=> msg.innerText="This reset link is invalid or has expired.");
+document.getElementById('btn').onclick = async () => {
+const p1 = document.getElementById('newPass').value;
+const p2 = document.getElementById('confirmPass').value;
+if(p1!==p2){ msg.innerText="Passwords do not match."; return; }
+if(p1.length<6){ msg.innerText="Password must be at least 6 characters."; return; }
+try{ await confirmPasswordReset(auth, oobCode, p1); msg.innerText="Password updated successfully. You can now sign in on the app."; }
+catch(e){ msg.innerText=e.message; }
+};
+</script>
+</body>
+</html>
