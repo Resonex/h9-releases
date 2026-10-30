@@ -31,5 +31,8 @@ Post links also accept an optional `img` query parameter. A valid HTTP(S) URL
 overrides the image stored on the Firebase post for the preview and social
 metadata. The visible post image is rendered prominently above the post text;
 image URLs are also recognized in common nested media fields and Markdown
-image syntax. Android app links target `com.resonex.h9`, with `/download` as
-the install fallback. Invalid image URLs are ignored.
+image syntax. Images from supported hosts are served through the site's
+size-limited image proxy, so the preview and social card use a HACKIN9 URL
+instead of embedding the external image host. Android app links target
+`com.resonex.h9`, with `/download` as the install fallback. Invalid image URLs
+are ignored.

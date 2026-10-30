@@ -1,6 +1,6 @@
 const DATABASE_URL = "https://h9-database-default-rtdb.firebaseio.com";
 const SITE_URL = "https://hackin9.name.ng";
-const DEFAULT_IMAGE = "https://i.ibb.co/GvWL4DFM/1010401853.png";
+const DEFAULT_IMAGE = `${SITE_URL}/post-placeholder.svg`;
 const DOWNLOAD_URL = `${SITE_URL}/download`;
 
 function escapeHtml(value) {
@@ -40,6 +40,34 @@ function textValue(value) {
 function validImageUrl(value) {
   if (typeof value !== "string" || value.length > 2048) {
     return "";
+  }
+
+  function imageDisplayUrl(value) {
+    const imageUrl = validImageUrl(value);
+    if (!imageUrl) {
+      return DEFAULT_IMAGE;
+    }
+
+    try {
+      const host = new URL(imageUrl).hostname.toLowerCase();
+      if (
+        [
+          "i.ibb.co",
+          "i.imgur.com",
+          "images.unsplash.com",
+          "lh3.googleusercontent.com",
+          "res.cloudinary.com",
+          "firebasestorage.googleapis.com",
+          "storage.googleapis.com",
+        ].includes(host)
+      ) {
+        return `${SITE_URL}/api/post-image?url=${encodeURIComponent(imageUrl)}`;
+      }
+    } catch {
+      return DEFAULT_IMAGE;
+    }
+
+    return imageUrl;
   }
 
   try {
@@ -283,15 +311,19 @@ function renderPost(id, post, directImage) {
   const description =
     preview || "Open this community post in the H9 app.";
   const excerpt = description.replace(/\s+/g, " ").slice(0, 200);
-  const image = firstImage(post, directImage);
+  const imageSource = firstImage(post, directImage);
+  const image = imageDisplayUrl(imageSource);
   const postUrl = `${SITE_URL}/post/${encodeURIComponent(id)}`;
   const appUrl = `h9://post/${encodeURIComponent(id)}`;
   const author =
     firstText(post, ["authorName", "displayName", "username"]) ||
     textValue(post.author && (post.author.displayName || post.author.name || post.author));
-  const authorImage = validImageUrl(
+  const authorImageSource = validImageUrl(
     firstText(post, ["authorAvatar", "authorPhotoUrl", "authorPhotoURL"]),
   );
+  const authorImage = authorImageSource
+    ? imageDisplayUrl(authorImageSource)
+    : "";
   const contentHtml = preview
     ? renderMarkdown(preview)
     : "<p>Open this community post in the H9 app to view its details.</p>";
@@ -312,6 +344,7 @@ function renderPost(id, post, directImage) {
   <meta property="og:title" content="${escapeHtml(title)}">
   <meta property="og:description" content="${escapeHtml(excerpt)}">
   <meta property="og:image" content="${escapeHtml(image)}">
+  <meta property="og:image:secure_url" content="${escapeHtml(image)}">
   <meta property="og:image:alt" content="HACKIN9 community post">
   <meta property="og:url" content="${escapeHtml(postUrl)}">
   <link rel="canonical" href="${escapeHtml(postUrl)}">
@@ -330,9 +363,9 @@ function renderPost(id, post, directImage) {
     .brand-mark{display:grid;place-items:center;width:25px;height:25px;border:1px solid rgba(76,225,238,.36);border-radius:8px;background:rgba(76,225,238,.1);color:var(--cyan);font-size:12px;letter-spacing:0}
     .card{overflow:hidden;background:linear-gradient(160deg,rgba(20,29,45,.98),rgba(12,17,27,.99));border:1px solid var(--line);border-radius:24px;box-shadow:0 28px 90px rgba(0,0,0,.42),0 0 0 1px rgba(255,255,255,.015)}
     .eyebrow{padding:22px 26px 0;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#8b9bb1}
-    .post-image-wrap{position:relative;margin:18px 26px 0;overflow:hidden;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:linear-gradient(135deg,#17263b,#101725);min-height:120px}
-    .post-image{display:block;width:100%;height:auto;max-height:440px;object-fit:cover}
-    .post-image-fallback{display:grid;place-items:center;min-height:220px;color:#9aa7ba;font-size:13px}
+    .post-image-wrap{position:relative;margin:18px 26px 0;overflow:hidden;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:linear-gradient(135deg,#17263b,#101725);min-height:160px}
+    .post-image{display:block;width:100%;height:auto;max-height:540px;object-fit:contain;background:#0d1421}
+    .post-image-fallback{display:block;width:100%;min-height:220px;color:#9aa7ba;font-size:13px}
     .post-content{padding:22px 26px 26px}
     .author-row{display:flex;align-items:center;gap:10px;margin-bottom:15px}
     .author-avatar{width:34px;height:34px;flex:none;border-radius:50%;object-fit:cover;background:#202b3c;border:1px solid var(--line)}
@@ -356,7 +389,7 @@ function renderPost(id, post, directImage) {
     .btn-open{background:linear-gradient(110deg,#3bdae8,#6088ff);color:#07111d;box-shadow:0 10px 28px rgba(69,174,238,.2)}
     .btn-download{border-color:var(--line);background:rgba(255,255,255,.035);color:#dce4ef;font-weight:600}
     .footer{margin:15px 0 0;text-align:center;color:#657287;font-size:11px;letter-spacing:.04em}
-    @media(max-width:520px){body{padding:18px}.eyebrow{padding:18px 18px 0}.post-image-wrap{margin:14px 18px 0;border-radius:12px}.post-image{max-height:360px}.post-content{padding:18px}.title{font-size:21px}.actions{grid-template-columns:1fr}}
+    @media(max-width:520px){body{padding:18px}.eyebrow{padding:18px 18px 0}.post-image-wrap{margin:14px 18px 0;border-radius:12px}.post-image{max-height:420px}.post-content{padding:18px}.title{font-size:21px}.actions{grid-template-columns:1fr}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
   </style>
 </head>
@@ -366,7 +399,7 @@ function renderPost(id, post, directImage) {
     <article class="card">
       <div class="eyebrow">Community post</div>
       <div class="post-image-wrap">
-        <img src="${escapeHtml(image)}" class="post-image" alt="Image for ${escapeHtml(title)}" width="1200" height="675" fetchpriority="high" onerror="this.onerror=null;this.src='${DEFAULT_IMAGE}';this.alt='H9 community preview';this.classList.add('post-image-fallback')">
+        <img src="${escapeHtml(image)}" class="post-image" alt="Image for ${escapeHtml(title)}" width="1200" height="675" fetchpriority="high" onerror="this.onerror=null;this.src='${IMAGE_PLACEHOLDER}';this.alt='H9 community preview';this.classList.add('post-image-fallback')">
       </div>
       <div class="post-content">
         ${author ? `<div class="author-row">${authorImage ? `<img class="author-avatar" src="${escapeHtml(authorImage)}" alt="" width="34" height="34">` : ""}<span class="author">Posted by ${escapeHtml(author)}</span></div>` : ""}
@@ -380,6 +413,37 @@ function renderPost(id, post, directImage) {
     </article>
     <p class="footer">A COMMUNITY BUILT FOR WHAT’S NEXT</p>
   </main>
+  <script>
+    (function () {
+      var button = document.getElementById("open-post");
+      var isAndroid = /Android/i.test(navigator.userAgent);
+      var isAppleMobile = /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      var appUrl = button.getAttribute("data-app-url");
+      var fallbackUrl = button.getAttribute("data-fallback-url");
+
+      if (isAndroid) {
+        button.href = button.getAttribute("data-intent-url");
+      } else if (!isAppleMobile) {
+        button.href = fallbackUrl;
+      } else {
+        button.addEventListener("click", function (event) {
+          event.preventDefault();
+          var fallbackTimer = window.setTimeout(function () {
+            if (document.visibilityState === "visible") {
+              window.location.href = fallbackUrl;
+            }
+          }, 1600);
+          document.addEventListener("visibilitychange", function () {
+            if (document.visibilityState === "hidden") {
+              window.clearTimeout(fallbackTimer);
+            }
+          }, { once: true });
+          window.location.href = appUrl;
+        });
+      }
+    })();
+  </script>
   <script>
     (function () {
       var button = document.getElementById("open-post");
