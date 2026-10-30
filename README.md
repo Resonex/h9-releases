@@ -22,4 +22,10 @@ Public profile links use `/user/{handle}` and are rewritten to
 It renders a profile preview with Open Graph metadata, profile and cover
 images, and a primary app-opening action. Android uses an H9 intent link with
 a download fallback; Apple mobile devices try the H9 scheme and fall back to
-the download page. Only selected public profile fields are rendered.
+the download page. An optional `photo` query parameter overrides the Firebase
+profile photo for the rendered page and social metadata. Only selected public
+profile fields are rendered.
+
+Post links also accept an optional `img` query parameter. A valid HTTP(S) URL
+overrides the image stored on the Firebase post for the preview and social
+metadata. Invalid image URLs are ignored.

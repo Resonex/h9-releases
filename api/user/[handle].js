@@ -20,6 +20,27 @@ function getText(value) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function validImageUrl(value) {
+  if (typeof value !== "string" || value.length > 2048) {
+    return "";
+  }
+
+  try {
+    const url = new URL(value);
+    if (
+      (url.protocol === "https:" || url.protocol === "http:") &&
+      !url.username &&
+      !url.password
+    ) {
+      return url.href;
+    }
+  } catch {
+    return "";
+  }
+
+  return "";
+}
+
 function getImage(
   profile,
   fields = [
@@ -43,15 +64,9 @@ function getImage(
           ? value.url || value.downloadURL || value.downloadUrl
           : "";
 
-    if (typeof candidate === "string") {
-      try {
-        const url = new URL(candidate);
-        if (url.protocol === "https:" || url.protocol === "http:") {
-          return url.href;
-        }
-      } catch {
-        // Ignore invalid profile image URLs and use the site fallback.
-      }
+    const imageUrl = validImageUrl(candidate);
+    if (imageUrl) {
+      return imageUrl;
     }
   }
 
@@ -76,7 +91,7 @@ function renderError(message) {
 </html>`;
 }
 
-function renderProfile(handle, profile) {
+function renderProfile(handle, profile, directPhoto) {
   const username =
     getText(profile.username) ||
     getText(profile.handle) ||
@@ -93,7 +108,7 @@ function renderProfile(handle, profile) {
     [...(bio || `View ${displayName}'s profile on HACKIN9.`)]
       .slice(0, 200)
       .join("");
-  const image = getImage(profile);
+  const image = validImageUrl(directPhoto) || getImage(profile);
   const coverImage = getImage(profile, ["coverImageUrl", "coverImageURL"]);
   const profileUrl = `${SITE_URL}/user/${encodeURIComponent(handle)}`;
   const appUrl = `h9://user/${encodeURIComponent(handle)}`;
@@ -260,6 +275,7 @@ module.exports = async function handler(req, res) {
   }
 
   const handle = typeof req.query.handle === "string" ? req.query.handle.trim() : "";
+  const directPhoto = typeof req.query.photo === "string" ? req.query.photo : "";
   if (!handle || handle.length > 64 || !/^[A-Za-z0-9_-]+$/.test(handle)) {
     res.status(400).send(renderError("The username link is invalid."));
     return;
@@ -314,5 +330,5 @@ module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "text/html; charset=utf-8");
   res.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
   res.setHeader("X-Content-Type-Options", "nosniff");
-  res.status(200).send(renderProfile(handle, profile));
+  res.status(200).send(renderProfile(handle, profile, directPhoto));
 };

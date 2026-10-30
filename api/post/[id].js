@@ -37,6 +37,27 @@ function textValue(value) {
   return "";
 }
 
+function validImageUrl(value) {
+  if (typeof value !== "string" || value.length > 2048) {
+    return "";
+  }
+
+  try {
+    const url = new URL(value);
+    if (
+      (url.protocol === "https:" || url.protocol === "http:") &&
+      !url.username &&
+      !url.password
+    ) {
+      return url.href;
+    }
+  } catch {
+    return "";
+  }
+
+  return "";
+}
+
 function firstText(post, fields) {
   for (const field of fields) {
     const text = textValue(post[field]);
@@ -48,7 +69,12 @@ function firstText(post, fields) {
   return "";
 }
 
-function firstImage(post) {
+function firstImage(post, directImage) {
+  const queryImage = validImageUrl(directImage);
+  if (queryImage) {
+    return queryImage;
+  }
+
   for (const field of [
     "imageUrl",
     "imageURL",
@@ -72,15 +98,9 @@ function firstImage(post) {
           ? value.url || value.downloadURL || value.downloadUrl
           : "";
 
-    if (typeof candidate === "string") {
-      try {
-        const url = new URL(candidate);
-        if (url.protocol === "https:" || url.protocol === "http:") {
-          return url.href;
-        }
-      } catch {
-        // Ignore invalid image URLs and use the site fallback.
-      }
+    const imageUrl = validImageUrl(candidate);
+    if (imageUrl) {
+      return imageUrl;
     }
   }
 
@@ -204,7 +224,7 @@ function renderMarkdown(value) {
   return blocks.join("");
 }
 
-function renderPost(id, post) {
+function renderPost(id, post, directImage) {
   const content = firstText(post, [
     "text",
     "content",
@@ -226,7 +246,7 @@ function renderPost(id, post) {
   const description =
     preview || "Open this community post in the H9 app.";
   const excerpt = description.replace(/\s+/g, " ").slice(0, 200);
-  const image = firstImage(post);
+  const image = firstImage(post, directImage);
   const postUrl = `${SITE_URL}/post/${encodeURIComponent(id)}`;
   const appUrl = `h9://post/${encodeURIComponent(id)}`;
   const author =
@@ -308,6 +328,7 @@ module.exports = async function handler(req, res) {
   }
 
   const id = typeof req.query.id === "string" ? req.query.id : "";
+  const directImage = typeof req.query.img === "string" ? req.query.img : "";
   if (
     !id ||
     Buffer.byteLength(id, "utf8") > 768 ||
@@ -357,5 +378,5 @@ module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "text/html; charset=utf-8");
   res.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
   res.setHeader("X-Content-Type-Options", "nosniff");
-  res.status(200).send(renderPost(id, post));
+  res.status(200).send(renderPost(id, post, directImage));
 };
