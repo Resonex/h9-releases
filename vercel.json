@@ -1,7 +1,7 @@
 {
   "redirects": [
     {
-      "source": "/post/:path*",
+      "source": "/download",
       "destination": "https://github.com/Resonex/h9-releases/releases/latest",
       "permanent": false
     },
@@ -19,6 +19,12 @@
       "source": "/u/:path*",
       "destination": "https://github.com/Resonex/h9-releases/releases/latest",
       "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/post/:id",
+      "destination": "/api/post/:id"
     }
   ],
   "headers": [
