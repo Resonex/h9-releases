@@ -42,34 +42,6 @@ function validImageUrl(value) {
     return "";
   }
 
-  function imageDisplayUrl(value) {
-    const imageUrl = validImageUrl(value);
-    if (!imageUrl) {
-      return DEFAULT_IMAGE;
-    }
-
-    try {
-      const host = new URL(imageUrl).hostname.toLowerCase();
-      if (
-        [
-          "i.ibb.co",
-          "i.imgur.com",
-          "images.unsplash.com",
-          "lh3.googleusercontent.com",
-          "res.cloudinary.com",
-          "firebasestorage.googleapis.com",
-          "storage.googleapis.com",
-        ].includes(host)
-      ) {
-        return `${SITE_URL}/api/post-image?url=${encodeURIComponent(imageUrl)}`;
-      }
-    } catch {
-      return DEFAULT_IMAGE;
-    }
-
-    return imageUrl;
-  }
-
   try {
     const url = new URL(value);
     if (
@@ -84,6 +56,34 @@ function validImageUrl(value) {
   }
 
   return "";
+}
+
+function imageDisplayUrl(value) {
+  const imageUrl = validImageUrl(value);
+  if (!imageUrl) {
+    return DEFAULT_IMAGE;
+  }
+
+  try {
+    const host = new URL(imageUrl).hostname.toLowerCase();
+    if (
+      [
+        "i.ibb.co",
+        "i.imgur.com",
+        "images.unsplash.com",
+        "lh3.googleusercontent.com",
+        "res.cloudinary.com",
+        "firebasestorage.googleapis.com",
+        "storage.googleapis.com",
+      ].includes(host)
+    ) {
+      return `${SITE_URL}/api/post-image?url=${encodeURIComponent(imageUrl)}`;
+    }
+  } catch {
+    return DEFAULT_IMAGE;
+  }
+
+  return imageUrl;
 }
 
 function firstText(post, fields) {
@@ -399,7 +399,7 @@ function renderPost(id, post, directImage) {
     <article class="card">
       <div class="eyebrow">Community post</div>
       <div class="post-image-wrap">
-        <img src="${escapeHtml(image)}" class="post-image" alt="Image for ${escapeHtml(title)}" width="1200" height="675" fetchpriority="high" onerror="this.onerror=null;this.src='${IMAGE_PLACEHOLDER}';this.alt='H9 community preview';this.classList.add('post-image-fallback')">
+        <img src="${escapeHtml(image)}" class="post-image" alt="Image for ${escapeHtml(title)}" width="1200" height="675" fetchpriority="high" onerror="this.onerror=null;this.src='${DEFAULT_IMAGE}';this.alt='H9 community preview';this.classList.add('post-image-fallback')">
       </div>
       <div class="post-content">
         ${author ? `<div class="author-row">${authorImage ? `<img class="author-avatar" src="${escapeHtml(authorImage)}" alt="" width="34" height="34">` : ""}<span class="author">Posted by ${escapeHtml(author)}</span></div>` : ""}
