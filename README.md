@@ -19,5 +19,7 @@ in Firebase use different names, update the field lists in
 Public profile links use `/user/{handle}` and are rewritten to
 `api/user/[handle].js`. That function resolves the username through
 `usernameIndex/{handle}`, then reads the corresponding `users/{uid}` record.
-It renders a profile preview with Open Graph metadata, a profile image, and an
-H9 app link. Only selected public profile fields are rendered.
+It renders a profile preview with Open Graph metadata, profile and cover
+images, and a primary app-opening action. Android uses an H9 intent link with
+a download fallback; Apple mobile devices try the H9 scheme and fall back to
+the download page. Only selected public profile fields are rendered.
