@@ -58,7 +58,7 @@
     "operatingSystem": "Android",
     "applicationCategory": "UtilitiesApplication",
     "author": { "@type": "Organization", "name": "Resonex" },
-    "downloadUrl": "https://github.com/Resonex/h9-releases/releases",
+    "downloadUrl": "https://hackin9.name.ng/download",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
   }
   </script>
@@ -612,7 +612,7 @@
           <h1 id="hero-title">HACKIN9 <span class="grad">(H9)</span><small>Security toolkit for Android</small></h1>
           <p class="lead">The official home of HACKIN9 by Resonex. Download the latest verified APK, follow every release, and read the documentation, all in one place.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary" id="heroDownloadBtn" href="https://github.com/Resonex/h9-releases/releases/latest"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg> Get the latest APK</a>
+            <a class="btn btn-primary" id="heroDownloadBtn" href="/download"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg> Get the latest APK</a>
             <a class="btn" href="#docs"><svg class="i" aria-hidden="true"><use href="#i-book"/></svg> Read the docs</a>
           </div>
           <div class="stats" aria-label="Latest release summary">
@@ -703,9 +703,9 @@
               <div><small><svg class="i" aria-hidden="true"><use href="#i-download"/></svg> Downloads</small><b id="downloads">--</b></div>
             </div>
             <div class="actions">
-              <a class="btn btn-primary" id="downloadBtn" href="https://github.com/Resonex/h9-releases/releases/latest" target="_blank" rel="noopener noreferrer"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg><span id="downloadLabel">Download APK</span></a>
+              <a class="btn btn-primary" id="downloadBtn" href="/download"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg><span id="downloadLabel">Download APK</span></a>
               <a class="btn" id="notesBtn" href="#changelog"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg>Release notes</a>
-              <a class="btn" id="allReleasesBtn" href="https://github.com/Resonex/h9-releases/releases" target="_blank" rel="noopener noreferrer"><svg class="i" aria-hidden="true"><use href="#i-external"/></svg>All releases</a>
+              <a class="btn" id="allReleasesBtn" href="#versions"><svg class="i" aria-hidden="true"><use href="#i-history"/></svg>Version history</a>
             </div>
             <div class="hashrow" id="hashRow" hidden>
               <svg class="i" aria-hidden="true"><use href="#i-hash"/></svg>
@@ -749,7 +749,7 @@
         <article class="card notes-card reveal">
           <div class="head">
             <h3 id="notesTitle">Latest release</h3>
-            <a class="btn btn-sm" id="notesLink" href="https://github.com/Resonex/h9-releases/releases" target="_blank" rel="noopener noreferrer"><svg class="i" aria-hidden="true"><use href="#i-external"/></svg>View on GitHub</a>
+            <a class="btn btn-sm" id="notesLink" href="#versions"><svg class="i" aria-hidden="true"><use href="#i-history"/></svg>Version history</a>
           </div>
           <div class="md" id="notes">Loading official release notes...</div>
         </article>
@@ -876,7 +876,7 @@
     <div class="pal-foot"><span><kbd>Up</kbd> <kbd>Down</kbd> navigate</span><span><kbd>Enter</kbd> open</span><span><kbd>Esc</kbd> close</span></div>
   </dialog>
 
-  <noscript><div class="wrap" style="padding:20px 0;color:#c3ccdb">JavaScript is required for the live release feed. You can still download from the <a href="https://github.com/Resonex/h9-releases/releases/latest">official GitHub releases page</a>.</div></noscript>
+  <noscript><div class="wrap" style="padding:20px 0;color:#c3ccdb">JavaScript is required for the live release feed. You can still <a href="/download">download the latest APK directly</a>.</div></noscript>
 
   <script>
     "use strict";
@@ -918,7 +918,7 @@
         '<h3>Verify your download</h3>' +
         '<p>When GitHub provides a checksum for the release file, it is displayed under the download button as a SHA-256 value.</p>' +
         '<ul><li>Compute the SHA-256 of the downloaded file with a hash utility.</li><li>Compare it to the value shown on this page.</li><li>If they differ, delete the file and download it again from this site.</li></ul>' +
-        '<div class="callout"><svg class="i" aria-hidden="true"><use href="#i-shield"/></svg><span>Only download from this website or the official GitHub releases page.</span></div>' },
+        '<div class="callout"><svg class="i" aria-hidden="true"><use href="#i-shield"/></svg><span>Download APK files from this website. The download link serves the APK directly from the official release asset.</span></div>' },
       { id: "update", icon: "history", title: "Updating", body: '' +
         '<h3>Updating HACKIN9</h3>' +
         '<p>To update, download the newest APK and install it over the existing app. Your data is normally kept.</p>' +
@@ -936,7 +936,7 @@
       { q: "What is HACKIN9 (H9)?", a: "HACKIN9, also written H9, is an Android app published by Resonex. This website is its official home for downloads, release notes and documentation." },
       { q: "Is the APK download free?", a: "Yes. The APK is published openly in the official GitHub releases repository and can be downloaded at no cost." },
       { q: "Where do the downloads come from?", a: "Every download button on this site points directly to a file attached to an official GitHub release. Nothing is hosted on third-party mirrors." },
-      { q: "How do I know a file is genuine?", a: "Download only from this site or the official releases page. When a checksum is published, compare it with the SHA-256 shown in the Downloads section." },
+      { q: "How do I know a file is genuine?", a: "Download the APK through this site. When a checksum is published, compare it with the SHA-256 shown in the Downloads section." },
       { q: "Why does Android warn me when installing?", a: "APKs installed outside an app store trigger a standard Android prompt. Allow the install only if you trust the source." },
       { q: "How do I update the app?", a: "Download the latest APK from this page and install it over your current version. See the Updating guide in the documentation." },
       { q: "Can I download an older version?", a: "Yes. The Version history section lists every published release, and each one has its own download button when an APK is attached." },
@@ -950,9 +950,7 @@
     function safe(fn) { try { fn(); } catch (e) { if (window.console) console.error(e); } }
     function onMedia(mq, cb) { if (mq.addEventListener) mq.addEventListener("change", cb); else if (mq.addListener) mq.addListener(cb); }
 
-    var repoUrl = "https://github.com/" + GITHUB_OWNER + "/" + GITHUB_REPO;
-    var releasesUrl = repoUrl + "/releases";
-    var latestUrl = releasesUrl + "/latest";
+    var apkDownloadUrl = "/download";
     function icon(n, c) { return '<svg class="' + (c || "i i-lg") + '" aria-hidden="true"><use href="#i-' + n + '"/></svg>'; }
     function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
     var reduceMotion = false;
@@ -1033,7 +1031,7 @@
     function initBasics() {
       $("year").textContent = new Date().getFullYear();
       $("repoLink").href = repoUrl; $("footRepo").href = repoUrl;
-      $("allReleasesBtn").href = releasesUrl; $("notesLink").href = releasesUrl;
+      $("allReleasesBtn").href = "#versions"; $("notesLink").href = "#versions";
       $("issuesLink").href = repoUrl + "/issues";
       $("mailLink").href = "mailto:" + CONTACT_EMAIL; $("mailLink").textContent = CONTACT_EMAIL;
     }
@@ -1138,15 +1136,15 @@
 
     function unskeleton() { Array.prototype.forEach.call(arguments, function (i) { var el = $(i); if (el) el.classList.remove("skeleton"); }); }
 
-    /* The download button is never hidden or dead: it either downloads the APK or opens the releases page */
-    function setDownloadFallback(msg, isErr, url, label) {
+    /* Keep download controls on-site; /download resolves directly to an APK asset. */
+    function setDownloadFallback(msg, isErr) {
       var b = $("downloadBtn");
-      b.href = url || latestUrl;
-      b.target = "_blank"; b.rel = "noopener noreferrer";
+      b.href = apkDownloadUrl;
+      b.removeAttribute("target"); b.removeAttribute("rel");
       b.removeAttribute("download");
-      $("downloadLabel").textContent = label || "Open releases page";
+      $("downloadLabel").textContent = "Download APK";
       $("status").textContent = msg; $("status").classList.toggle("error", !!isErr);
-      var hb = $("heroDownloadBtn"); if (hb) hb.href = "#downloads";
+      var hb = $("heroDownloadBtn"); if (hb) hb.href = apkDownloadUrl;
     }
 
     function renderLatest(rel, totalDownloads) {
@@ -1156,8 +1154,8 @@
       $("releaseDate").textContent = "Released " + fmtDate(rel.published_at);
       $("releaseBadge").textContent = rel.prerelease ? "PRE-RELEASE" : "STABLE";
       $("releaseBadge").classList.toggle("pre", !!rel.prerelease);
-      $("allReleasesBtn").href = rel.html_url || releasesUrl;
-      $("notesLink").href = rel.html_url || releasesUrl;
+      $("allReleasesBtn").href = "#versions";
+      $("notesLink").href = "#versions";
       $("notesTitle").textContent = releaseName(rel) + " release notes";
       renderMarkdown(rel.body, $("notes"));
       $("heroVersion").textContent = rel.tag_name || releaseName(rel);
@@ -1166,7 +1164,7 @@
       var lines = [{ k: "release", v: rel.tag_name || releaseName(rel) }, { k: "published", v: fmtDate(rel.published_at) }];
       if (!apk) {
         $("fileName").textContent = "Not attached"; $("fileSize").textContent = "--"; $("downloads").textContent = "--"; $("heroSize").textContent = "--";
-        setDownloadFallback("Release found, but no APK file is attached to it. Open the release page for available files.", true, rel.html_url, "Open release page");
+        setDownloadFallback("No APK is attached to the latest release. Download the most recent available APK.", false);
         lines.push({ k: "asset", v: "no APK attached", cls: "k" });
         consoleLines(lines); return;
       }
@@ -1192,9 +1190,9 @@
       $("version").textContent = "Release unavailable";
       $("heroVersion").textContent = "--"; $("heroSize").textContent = "--"; $("heroDownloads").textContent = "--";
       $("releaseDate").textContent = "Please use the button below";
-      $("notes").textContent = "We could not load release information right now. Use the All releases link or try again later.";
-      $("timeline").innerHTML = '<div class="empty">Version history is unavailable right now. <a href="' + releasesUrl + '" target="_blank" rel="noopener noreferrer">View releases on GitHub</a>.</div>';
-      setDownloadFallback(msg + " You can still get the APK from the GitHub releases page.", true, latestUrl, "Open releases page");
+      $("notes").textContent = "We could not load release information right now. Browse the version history or try again later.";
+      $("timeline").innerHTML = '<div class="empty">Version history is unavailable right now. Please try again later.</div>';
+      setDownloadFallback(msg + " You can still download the latest available APK.", true);
       consoleLines([{ k: "error", v: msg, cls: "k" }]);
     }
 
@@ -1226,7 +1224,6 @@
         renderMarkdown(r.body, qs(".md", row));
         var act = qs(".actions", row);
         if (apk) { var a = document.createElement("a"); a.className = "btn btn-primary btn-sm"; a.href = apk.browser_download_url; a.setAttribute("download", apk.name); a.innerHTML = icon("download", "i") + "Download APK"; act.appendChild(a); }
-        var g = document.createElement("a"); g.className = "btn btn-sm"; g.href = r.html_url; g.target = "_blank"; g.rel = "noopener noreferrer"; g.innerHTML = icon("external", "i") + "GitHub"; act.appendChild(g);
         var head = qs(".vhead", row), body = qs(".vbody", row);
         head.addEventListener("click", function () { var open = head.getAttribute("aria-expanded") === "true"; head.setAttribute("aria-expanded", String(!open)); body.classList.toggle("open", !open); });
         if (i === 0 && !q) { head.setAttribute("aria-expanded", "true"); body.classList.add("open"); }

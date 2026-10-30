@@ -6,8 +6,9 @@ This static site is hosted on Vercel. Shared community post links use
 
 The function reads one record from the public Firebase Realtime Database path
 `community_posts/{postId}`. It renders Open Graph and Twitter metadata plus a
-web preview with an H9 app deep link and a download link to the official GitHub
-releases page through `/download`. It shows a shortened Markdown-formatted
+web preview with an H9 app deep link and a download link through `/download`.
+That route resolves the latest official APK and redirects directly to its
+asset, never to a GitHub Releases page. It shows a shortened Markdown-formatted
 excerpt and the post image beside it. The preview recognizes fields such as
 `title`, `excerpt`, `content`, `coverImageUrl`, `imageUrl`, and `authorName`.
 
@@ -20,11 +21,11 @@ Public profile links use `/user/{handle}` and are rewritten to
 `api/user/[handle].js`. That function resolves the username through
 `usernameIndex/{handle}`, then reads the corresponding `users/{uid}` record.
 It renders a profile preview with Open Graph metadata, profile and cover
-images, and a primary app-opening action. Android uses an H9 intent link with
-a download fallback; Apple mobile devices try the H9 scheme and fall back to
-the download page. An optional `photo` query parameter overrides the Firebase
-profile photo for the rendered page and social metadata. Only selected public
-profile fields are rendered.
+images, and a primary app-opening action. Android uses an H9 intent targeting
+`com.resonex.h9` with a direct APK download fallback; Apple mobile devices try
+the H9 scheme and fall back to that download route. An optional `photo` query
+parameter overrides the Firebase profile photo for the rendered page and
+social metadata. Only selected public profile fields are rendered.
 
 Post links also accept an optional `img` query parameter. A valid HTTP(S) URL
 overrides the image stored on the Firebase post for the preview and social

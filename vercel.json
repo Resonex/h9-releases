@@ -1,18 +1,13 @@
 {
   "redirects": [
     {
-      "source": "/download",
-      "destination": "https://github.com/Resonex/h9-releases/releases/latest",
-      "permanent": false
-    },
-    {
       "source": "/p/:path*",
-      "destination": "https://github.com/Resonex/h9-releases/releases/latest",
+      "destination": "/post/:path*",
       "permanent": false
     },
     {
       "source": "/u/:path*",
-      "destination": "https://github.com/Resonex/h9-releases/releases/latest",
+      "destination": "/user/:path*",
       "permanent": false
     }
   ],
@@ -24,6 +19,10 @@
     {
       "source": "/user/:handle",
       "destination": "/api/user/:handle"
+    },
+    {
+      "source": "/download",
+      "destination": "/api/download"
     }
   ],
   "headers": [
