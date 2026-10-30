@@ -399,7 +399,7 @@ function renderPost(id, post, directImage) {
     <article class="card">
       <div class="eyebrow">Community post</div>
       <div class="post-image-wrap">
-        <img src="${escapeHtml(image)}" class="post-image" alt="Image for ${escapeHtml(title)}" width="1200" height="675" fetchpriority="high" onerror="this.onerror=null;this.src='${DEFAULT_IMAGE}';this.alt='H9 community preview';this.classList.add('post-image-fallback')">
+        <img src="${escapeHtml(image)}" data-direct-src="${escapeHtml(imageSource)}" class="post-image" alt="Image for ${escapeHtml(title)}" width="1200" height="675" fetchpriority="high" onerror="if(this.dataset.directTried!=='1'&&this.dataset.directSrc){this.dataset.directTried='1';this.src=this.dataset.directSrc}else{this.onerror=null;this.src='${DEFAULT_IMAGE}';this.alt='H9 community preview';this.classList.add('post-image-fallback')}">
       </div>
       <div class="post-content">
         ${author ? `<div class="author-row">${authorImage ? `<img class="author-avatar" src="${escapeHtml(authorImage)}" alt="" width="34" height="34">` : ""}<span class="author">Posted by ${escapeHtml(author)}</span></div>` : ""}

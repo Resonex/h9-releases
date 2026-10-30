@@ -33,6 +33,9 @@ metadata. The visible post image is rendered prominently above the post text;
 image URLs are also recognized in common nested media fields and Markdown
 image syntax. Images from supported hosts are served through the site's
 size-limited image proxy, so the preview and social card use a HACKIN9 URL
-instead of embedding the external image host. Android app links target
+instead of embedding the external image host. If the proxy cannot retrieve an
+image, the browser tries the original image URL and then shows the local H9
+placeholder. For reliable post sharing, store uploaded post images in Firebase
+Storage and save the public download URL in `coverImageUrl`. Android app links target
 `com.resonex.h9`, with `/download` as the install fallback. Invalid image URLs
 are ignored.
