@@ -15,3 +15,9 @@ The database URL is configured in the function as a public endpoint; no
 service-account key or Firebase admin credential is used. If the post fields
 in Firebase use different names, update the field lists in
 `api/post/[id].js`.
+
+Public profile links use `/user/{handle}` and are rewritten to
+`api/user/[handle].js`. That function resolves the username through
+`usernameIndex/{handle}`, then reads the corresponding `users/{uid}` record.
+It renders a profile preview with Open Graph metadata, a profile image, and an
+H9 app link. Only selected public profile fields are rendered.
