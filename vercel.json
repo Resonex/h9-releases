@@ -2,22 +2,22 @@
   "redirects": [
     {
       "source": "/post/:path*",
-      "destination": "/download",
+      "destination": "https://github.com/Resonex/h9-releases/releases/latest",
       "permanent": false
     },
     {
       "source": "/p/:path*",
-      "destination": "/download",
+      "destination": "https://github.com/Resonex/h9-releases/releases/latest",
       "permanent": false
     },
     {
       "source": "/user/:path*",
-      "destination": "/download",
+      "destination": "https://github.com/Resonex/h9-releases/releases/latest",
       "permanent": false
     },
     {
       "source": "/u/:path*",
-      "destination": "/download",
+      "destination": "https://github.com/Resonex/h9-releases/releases/latest",
       "permanent": false
     }
   ],
